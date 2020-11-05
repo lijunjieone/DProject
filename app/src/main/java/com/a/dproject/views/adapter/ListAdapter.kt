@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.a.dproject.BR
+import com.a.dproject.MainActivity
 import com.a.dproject.R
 import com.a.dproject.mvvm.viewmodel.ListViewModel
 import com.a.dproject.toast
@@ -41,6 +42,9 @@ class ListAdapter(data: List<CommonMultiItem<ListViewModel.ListDataModel>>) :
         }
         binding.root.setOnClickListener {
             item.content?.fragmentName?.toast()
+            item.content?.let {
+                MainActivity.startFragment(binding.root.context, it.fragmentName)
+            }
         }
     }
 

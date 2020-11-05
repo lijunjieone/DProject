@@ -13,3 +13,4 @@ fun String.toast() {
 fun Int.string(): String {
     return DApp.appContext.getString(this)
 }
+
