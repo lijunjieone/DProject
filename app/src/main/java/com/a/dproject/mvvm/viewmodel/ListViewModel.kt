@@ -25,6 +25,7 @@ class ListViewModel(application: Application) :
         }
         val list = ArrayList<ListViewModel.ListDataModel>()
         list.add(ListDataModel("SimpleFragment", "SimpleFragment"))
+        list.add(ListDataModel("TabFragment", "TabFragment"))
         //itemList.value = handleListRequestResponse(list=list,haveMore = canLoadMore)
         itemList.value = list
         return itemList
