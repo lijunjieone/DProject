@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentListBinding
@@ -87,6 +88,7 @@ class ListFragment : ArtBaseFragment() {
     private fun initView() {
         adapter = ListAdapter(ArrayList<CommonMultiItem<ListViewModel.ListDataModel>>())
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 

@@ -1,8 +1,10 @@
 package com.a.dproject.mvvm.viewmodel
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.a.dproject.mvvm.fragment.SimpleFragment
 
 class ListViewModel(application: Application) :
     BaseViewModel<List<ListViewModel.ListDataModel>>(application) {
@@ -16,7 +18,7 @@ class ListViewModel(application: Application) :
         canLoadMore = false
     }
 
-    data class ListDataModel(val letter: String, val position: Int)
+    data class ListDataModel(val letter: String, val fragment: Fragment)
 
 
     override fun loadData(): LiveData<List<ListViewModel.ListDataModel>> {
@@ -24,20 +26,8 @@ class ListViewModel(application: Application) :
             return itemList
         }
         val list = ArrayList<ListViewModel.ListDataModel>()
-        val size = itemList.value?.size ?: 1
-
-        if (canReload) {
-            for (i in 0..50) {
-                val model = ListViewModel.ListDataModel("Item: ${i}", i)
-                list.add(model)
-            }
-        } else if (canLoadMore) {
-            for (i in size..size + 50) {
-                val model = ListViewModel.ListDataModel("Item: ${i}", i)
-                list.add(model)
-            }
-        }
-        canLoadMore = size <= 150
+        val simpleFragment = SimpleFragment.newInstance()
+        list.add(ListDataModel("SimpleFragment", simpleFragment))
         //itemList.value = handleListRequestResponse(list=list,haveMore = canLoadMore)
         itemList.value = list
         return itemList
