@@ -7,6 +7,7 @@ import androidx.databinding.ViewDataBinding
 import com.a.dproject.BR
 import com.a.dproject.R
 import com.a.dproject.mvvm.viewmodel.ListViewModel
+import com.a.dproject.toast
 import com.a.dproject.views.CommonMultiItem
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -34,9 +35,12 @@ class ListAdapter(data: List<CommonMultiItem<ListViewModel.ListDataModel>>) :
         when (helper.itemViewType) {
             CommonMultiItem.ITEM_HEADER -> helper.setText(R.id.iv_header, item.content?.letter)
             CommonMultiItem.ITEM_ONE -> when (helper.layoutPosition % 2) {
-                0 -> helper.setText(R.id.tv_letter, "one ${item.content?.letter}}")
-                1 -> helper.setText(R.id.tv_letter, "two ${item.content?.letter}}")
+                0 -> helper.setText(R.id.tv_letter, "${item.content?.letter}")
+                1 -> helper.setText(R.id.tv_letter, "${item.content?.letter}")
             }
+        }
+        binding.root.setOnClickListener {
+            item.content?.fragmentName?.toast()
         }
     }
 
