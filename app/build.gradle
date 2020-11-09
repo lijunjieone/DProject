@@ -51,6 +51,8 @@ dependencies {
     implementation project(":annotation-processor4")
     kapt project(":annotation-processor4")
 
+//    implementation "frankiesardo:auto-parcel:$autoparcel_version"
+//    kapt "frankiesardo:auto-parcel:$autoparcel_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

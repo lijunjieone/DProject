@@ -4,39 +4,49 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.databinding.FragmentSimpleBinding
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
+import com.a.dproject.toast
+import com.a.dproject.utils.DResult
 import com.a.processor.ListFragmentAnnotation
 
 @ListFragmentAnnotation
-class SimpleFragment : Fragment() {
+class SimpleFragment : ArtBaseFragment() {
 
     companion object {
         fun newInstance() = SimpleFragment()
     }
 
+    protected lateinit var binding: FragmentSimpleBinding
+
     private lateinit var viewModel: SimpleViewModel
+
+    override fun getContentId(): Int {
+        return R.layout.fragment_simple
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_simple, container, false)
+        binding = DataBindingUtil.inflate(inflater, getContentId(), container, false)
+
+        return binding.root
     }
 
-    fun getList(): ArrayList<String> {
-        val l = ArrayList<String>()
-        l.add("test1")
-        l.add("test2")
-        return l
+    fun getTasks(index: Int): DResult<String> {
+        return DResult.Success("test")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SimpleViewModel::class.java)
-        // TODO: Use the ViewModel
+        binding.root.setOnClickListener {
+            "toast".toast()
+        }
     }
 
 }
