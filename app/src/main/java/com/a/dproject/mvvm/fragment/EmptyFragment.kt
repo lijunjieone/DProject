@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import org.kotlin.annotationProcessor.ListFragmentAnnotation
+import com.a.processor.ListFragmentAnnotation
 import java.util.*
 
 @ListFragmentAnnotation

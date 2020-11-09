@@ -1,6 +1,7 @@
 package org.kotlin.annotationProcessor
 
 
+import com.a.processor.ListFragmentAnnotation
 import org.yanex.takenoko.*
 import java.io.File
 import javax.annotation.processing.*
@@ -9,11 +10,9 @@ import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic.Kind.ERROR
 
-@Target(AnnotationTarget.CLASS)
-annotation class ListFragmentAnnotation
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes("org.kotlin.annotationProcessor.ListFragmentAnnotation")
+@SupportedAnnotationTypes("com.a.processor.ListFragmentAnnotation")
 @SupportedOptions(TestAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
 class TestAnnotationProcessor : AbstractProcessor() {
     companion object {
