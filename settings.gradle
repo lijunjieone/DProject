@@ -1,2 +1,3 @@
+include ':annotation-processor4'
 include ':app'
 rootProject.name = "DProject"
