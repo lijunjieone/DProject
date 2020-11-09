@@ -37,15 +37,29 @@ class SimpleFragment : ArtBaseFragment() {
         return binding.root
     }
 
-    fun getTasks(index: Int): DResult<String> {
-        return DResult.Success("test")
+    fun testDResult(index: Int): DResult<String> {
+//        return DResult.Success("test")
+        return when {
+            index % 2 == 0 -> {
+                DResult.Success("success.${index}")
+            }
+            index % 3 == 0 -> {
+                DResult.Error(Exception("err.${index}"))
+            }
+            else -> {
+                DResult.Loading
+            }
+        }
     }
 
+    var count = 0
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SimpleViewModel::class.java)
         binding.root.setOnClickListener {
-            "toast".toast()
+//            "toast".toast()
+            testDResult(count++).toString().toast()
+
         }
     }
 
