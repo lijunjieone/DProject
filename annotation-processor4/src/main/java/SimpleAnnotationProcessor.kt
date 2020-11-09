@@ -13,8 +13,8 @@ import javax.tools.Diagnostic.Kind.ERROR
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("com.a.processor.ListFragmentAnnotation")
-@SupportedOptions(TestAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
-class TestAnnotationProcessor : AbstractProcessor() {
+@SupportedOptions(SimpleAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
+class SimpleAnnotationProcessor : AbstractProcessor() {
     companion object {
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
     }
