@@ -26,6 +26,13 @@ class SimpleFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_simple, container, false)
     }
 
+    fun getList(): ArrayList<String> {
+        val l = ArrayList<String>()
+        l.add("test1")
+        l.add("test2")
+        return l
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SimpleViewModel::class.java)

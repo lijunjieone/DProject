@@ -37,6 +37,11 @@ class TestAnnotationProcessor : AbstractProcessor() {
             }
 
         val generatedKtFile = kotlinFile("test.generated") {
+
+            var body = """
+                
+val l = ArrayList<String>()
+            """.trimIndent()
             for (element in annotatedElements) {
                 val typeElement = element.toTypeElementOrNull() ?: continue
 
@@ -44,7 +49,25 @@ class TestAnnotationProcessor : AbstractProcessor() {
                     receiverType(typeElement.qualifiedName.toString())
                     getterExpression("this::class.java.simpleName")
                 }
+                body = """
+                    ${body}
+l.add("${typeElement.qualifiedName.toString()}")
+                """.trimIndent()
+
             }
+
+
+            function("getShowList") {
+//                param<Array<String>>("args")
+                returnType("ArrayList<String>")
+                body(
+                    """
+${body}
+return l
+            """.trimIndent()
+                )
+            }
+
         }
 
         File(kaptKotlinGeneratedDir, "testGenerated.kt").apply {

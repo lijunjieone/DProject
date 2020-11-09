@@ -3,6 +3,7 @@ package com.a.dproject.mvvm.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import test.generated.getShowList
 
 class ListViewModel(application: Application) :
     BaseViewModel<List<ListViewModel.ListDataModel>>(application) {
@@ -24,8 +25,11 @@ class ListViewModel(application: Application) :
             return itemList
         }
         val list = ArrayList<ListViewModel.ListDataModel>()
-        list.add(ListDataModel("SimpleFragment", "SimpleFragment"))
-        list.add(ListDataModel("TabFragment", "TabFragment"))
+        getShowList().forEach {
+            list.add(ListDataModel(it, it))
+        }
+//        list.add(ListDataModel("SimpleFragment", "SimpleFragment"))
+//        list.add(ListDataModel("TabFragment", "TabFragment"))
         //itemList.value = handleListRequestResponse(list=list,haveMore = canLoadMore)
         itemList.value = list
         return itemList

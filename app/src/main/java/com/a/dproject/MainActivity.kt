@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun createFragmentByName(fragmentName: String): Fragment {
-            val f = Class.forName("com.a.dproject.mvvm.fragment.$fragmentName").newInstance() as Fragment
+            val f = Class.forName("$fragmentName").newInstance() as Fragment
             return f;
         }
     }
