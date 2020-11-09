@@ -16,9 +16,9 @@ import com.a.dproject.databinding.FragmentListBinding
 import com.a.dproject.mvvm.viewmodel.ListViewModel
 import com.a.dproject.views.CommonMultiItem
 import com.a.dproject.views.adapter.ListAdapter
-import org.kotlin.annotationProcessor.TestAnnotation
+import org.kotlin.annotationProcessor.ListFragmentAnnotation
 
-@TestAnnotation
+@ListFragmentAnnotation
 class ListFragment : ArtBaseFragment() {
 
     protected lateinit var binding: FragmentListBinding

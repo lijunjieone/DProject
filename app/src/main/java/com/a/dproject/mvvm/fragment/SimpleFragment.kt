@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
-import org.kotlin.annotationProcessor.TestAnnotation
+import org.kotlin.annotationProcessor.ListFragmentAnnotation
 
-@TestAnnotation
+@ListFragmentAnnotation
 class SimpleFragment : Fragment() {
 
     companion object {

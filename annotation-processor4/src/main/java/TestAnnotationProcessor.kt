@@ -10,10 +10,10 @@ import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic.Kind.ERROR
 
 @Target(AnnotationTarget.CLASS)
-annotation class TestAnnotation
+annotation class ListFragmentAnnotation
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes("org.kotlin.annotationProcessor.TestAnnotation")
+@SupportedAnnotationTypes("org.kotlin.annotationProcessor.ListFragmentAnnotation")
 @SupportedOptions(TestAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
 class TestAnnotationProcessor : AbstractProcessor() {
     companion object {
@@ -24,7 +24,8 @@ class TestAnnotationProcessor : AbstractProcessor() {
         annotations: MutableSet<out TypeElement>?,
         roundEnv: RoundEnvironment
     ): Boolean {
-        val annotatedElements = roundEnv.getElementsAnnotatedWith(TestAnnotation::class.java)
+        val annotatedElements =
+            roundEnv.getElementsAnnotatedWith(ListFragmentAnnotation::class.java)
         if (annotatedElements.isEmpty()) return false
 
         val kaptKotlinGeneratedDir =

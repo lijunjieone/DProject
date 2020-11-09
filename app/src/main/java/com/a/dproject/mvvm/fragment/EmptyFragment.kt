@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import org.kotlin.annotationProcessor.TestAnnotation
+import org.kotlin.annotationProcessor.ListFragmentAnnotation
 import java.util.*
 
-@TestAnnotation
+@ListFragmentAnnotation
 class EmptyFragment : Fragment() {
 
     override fun onCreateView(
