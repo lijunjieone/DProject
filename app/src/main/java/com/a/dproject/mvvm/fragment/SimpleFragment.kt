@@ -8,6 +8,7 @@ import android.view.ViewRootImpl
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.dagger.Car
 import com.a.dproject.databinding.FragmentSimpleBinding
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
 import com.a.dproject.toast
@@ -98,6 +99,11 @@ class SimpleFragment : ArtBaseFragment() {
         binding.tvRootView.setOnClickListener {
             val v = Utils.getRootViewImpl(binding.root as ViewGroup)
             v.toString().toast()
+        }
+
+        binding.tvDragger1.setOnClickListener {
+            val car = Car()
+            car.engine.run()
         }
     }
 

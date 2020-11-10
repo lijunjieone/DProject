@@ -67,6 +67,7 @@ public class Utils {
         return (ViewRootImpl) view.getParent();
     }
 
+ 
     public static String getTopFragment(FragmentManager fragmentManager) {
         if (fragmentManager == null) {
             return "";

@@ -57,6 +57,11 @@ dependencies {
 
     implementation 'com.github.android-notes.SwissArmyKnife:saklib:3.0.1-alpha1'
 
+    //dagger2，这个可以写在BaseMoudle里
+    api "com.google.dagger:dagger:$dagger_version"
+    //多模块项目，这个必须在使用到dagger2的所有moudle里都配置
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
