@@ -103,7 +103,8 @@ class SimpleFragment : ArtBaseFragment() {
 
         binding.tvDragger1.setOnClickListener {
             val car = Car()
-            car.engine.run()
+            car.engineA.run()
+            car.engineB.run()
         }
     }
 

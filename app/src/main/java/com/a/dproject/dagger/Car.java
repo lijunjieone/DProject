@@ -4,16 +4,23 @@ import javax.inject.Inject;
 
 public class Car {
 
+    @QualifierA
     @Inject
-    Engine engine;
+    Engine engineA;
+    @QualifierB
+    @Inject
+    Engine engineB;
 
     public Car() {
-        DaggerCarComponent.builder()
-                .markCarModule(new MarkCarModule())
+        DaggerCarComponent.builder().markCarModule(new MarkCarModule())
                 .build().inject(this);
     }
 
-    public Engine getEngine() {
-        return this.engine;
+    public Engine getEngineA() {
+        return this.engineA;
+    }
+
+    public Engine getEngineB() {
+        return this.engineB;
     }
 }
