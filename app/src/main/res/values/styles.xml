@@ -4,4 +4,27 @@
         <item name="android:background">@color/gray_400</item>
         <item name="exampleColor">@color/light_blue_400</item>
     </style>
+
+    <style name="comCornerStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">50%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
+    </style>
+
+    <style name="eggStyle">
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopRight">50dp</item>
+        <item name="cornerSizeTopLeft">50dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+    </style>
+
+    <style name="diamondStyle">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="cutCornerStyle">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">12dp</item>
+    </style>
 </resources>
