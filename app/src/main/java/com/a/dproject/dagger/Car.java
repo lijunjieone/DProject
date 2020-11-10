@@ -8,7 +8,9 @@ public class Car {
     Engine engine;
 
     public Car() {
-        DaggerCarComponent.builder().build().inject(this);
+        DaggerCarComponent.builder()
+                .markCarModule(new MarkCarModule())
+                .build().inject(this);
     }
 
     public Engine getEngine() {

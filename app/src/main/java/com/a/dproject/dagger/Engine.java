@@ -10,12 +10,10 @@ public class Engine {
 
     String gear = "";
 
+
     @Inject
-    Engine() {
-    }
-
     Engine(String gear) {
-
+        this.gear = gear;
     }
 
     public void run() {
