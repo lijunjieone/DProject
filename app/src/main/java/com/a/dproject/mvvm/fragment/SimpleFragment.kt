@@ -12,6 +12,7 @@ import com.a.dproject.databinding.FragmentSimpleBinding
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
 import com.a.dproject.toast
 import com.a.dproject.utils.DResult
+import com.a.helper.utils.Utils
 import com.a.helper.window.compact.compact.IWindowChangeListener
 import com.a.helper.window.compact.compact.WindowRootViewCompat
 import com.a.processor.ListFragmentAnnotation
@@ -81,14 +82,15 @@ class SimpleFragment : ArtBaseFragment() {
                         viewRootImpl: ViewRootImpl,
                         view: View
                     ) {
-                        viewRootImpl.toString().toast()
+//                        "viewRootImpl ${viewRootImpl.toString()}".toast()
+                        Utils.getTopFragment(view).toast()
                     }
 
                     override fun onRemoveWindow(
                         viewRootImpl: ViewRootImpl,
                         view: View
                     ) {
-                        view.toString().toast()
+                        "view ${view.toString()}".toast()
                     }
                 })
         }
