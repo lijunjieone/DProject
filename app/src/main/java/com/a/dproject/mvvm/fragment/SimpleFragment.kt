@@ -94,6 +94,11 @@ class SimpleFragment : ArtBaseFragment() {
                     }
                 })
         }
+
+        binding.tvRootView.setOnClickListener {
+            val v = Utils.getRootViewImpl(binding.root as ViewGroup)
+            v.toString().toast()
+        }
     }
 
 }

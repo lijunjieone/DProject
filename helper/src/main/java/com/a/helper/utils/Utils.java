@@ -2,6 +2,8 @@ package com.a.helper.utils;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewRootImpl;
 
 import androidx.fragment.app.Fragment;
@@ -54,6 +56,15 @@ public class Utils {
         } else {
             return "";
         }
+    }
+
+    public static ViewRootImpl getRootViewImpl(ViewGroup view) {
+        boolean isRoot = ((ViewParent) view instanceof ViewRootImpl);
+        while (!isRoot && !(view.getParent() instanceof ViewRootImpl)) {
+            view = (ViewGroup) view.getParent();
+            isRoot = ((ViewParent) view instanceof ViewRootImpl);
+        }
+        return (ViewRootImpl) view.getParent();
     }
 
     public static String getTopFragment(FragmentManager fragmentManager) {
