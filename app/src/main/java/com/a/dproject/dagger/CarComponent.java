@@ -4,6 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import javax.inject.Qualifier;
+import javax.inject.Scope;
 
 import dagger.Component;
 
@@ -21,4 +22,10 @@ public interface CarComponent {
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @interface QualifierB {
+}
+
+
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+@interface CarScope {
 }
