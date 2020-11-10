@@ -12,6 +12,7 @@ import com.a.dproject.mvvm.viewmodel.SimpleViewModel
 import com.a.dproject.toast
 import com.a.dproject.utils.DResult
 import com.a.processor.ListFragmentAnnotation
+import com.wanjian.sak.SAK
 
 @ListFragmentAnnotation
 class SimpleFragment : ArtBaseFragment() {
@@ -60,6 +61,10 @@ class SimpleFragment : ArtBaseFragment() {
 //            "toast".toast()
             testDResult(count++).toString().toast()
 
+        }
+        binding.root.setOnLongClickListener {
+            SAK.init(requireActivity().application, null)
+            true
         }
     }
 

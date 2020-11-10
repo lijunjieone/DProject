@@ -54,6 +54,9 @@ dependencies {
 //    implementation "frankiesardo:auto-parcel:$autoparcel_version"
 //    kapt "frankiesardo:auto-parcel:$autoparcel_version"
 
+    implementation 'com.github.android-notes.SwissArmyKnife:saklib:3.0.1-alpha1'
+
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
