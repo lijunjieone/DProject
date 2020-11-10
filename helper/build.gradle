@@ -1,24 +1,20 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
 }
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-    dataBinding {
-        enabled = true
-    }
+
     defaultConfig {
-        applicationId "com.a.dproject"
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -42,22 +38,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
-
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
-
-    implementation project(":helper")
-    implementation project(":annotation-processor4")
-    kapt project(":annotation-processor4")
-
-//    implementation "frankiesardo:auto-parcel:$autoparcel_version"
-//    kapt "frankiesardo:auto-parcel:$autoparcel_version"
-
-    implementation 'com.github.android-notes.SwissArmyKnife:saklib:3.0.1-alpha1'
-
-
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -60,11 +60,16 @@ class SimpleFragment : ArtBaseFragment() {
         binding.root.setOnClickListener {
 //            "toast".toast()
             testDResult(count++).toString().toast()
-
         }
         binding.root.setOnLongClickListener {
             SAK.init(requireActivity().application, null)
             true
+        }
+    }
+
+    fun initClick() {
+        binding.tvEvent.setOnClickListener {
+
         }
     }
 
