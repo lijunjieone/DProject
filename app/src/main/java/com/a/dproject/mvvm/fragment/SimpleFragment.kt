@@ -112,7 +112,7 @@ class SimpleFragment : ArtBaseFragment() {
 //            "test".toast()
             val h = handleJson()
             h?.let {
-                h.hidden_card.rank.toast()
+                h.hiddenCard.rank.toast()
             }
         }
     }
@@ -128,11 +128,11 @@ class SimpleFragment : ArtBaseFragment() {
 
     val json = """
         {
-          "hidden_card": {
+          "hiddenCard": {
             "rank": "6",
             "suit": "SPADES"
           },
-          "visible_cards": [
+          "visibleCards": [
             {
               "rank": "4",
               "suit": "CLUBS"
@@ -145,7 +145,7 @@ class SimpleFragment : ArtBaseFragment() {
         }
     """.trimIndent()
 
-    data class BlackjackHand(val hidden_card: Card, val visible_cards: List<Card>)
+    data class BlackjackHand(val hiddenCard: Card, val visibleCards: List<Card>)
     data class Card(val rank: String, val suit: Suit)
     enum class Suit {
         CLUBS,
