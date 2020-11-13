@@ -1,4 +1,7 @@
-# kotlin使用自定义注解
+# 基于kotlin的自定义注解,完成自动寻找注解Fragment,加入列表能力
+
+## 功能
+  定义一个自定义注解,在某个类上加入这个注解,在运行时,自动讲标记注解的类,加入到某个列表中
 
 # 目标
 - 定义自定义注解
@@ -10,13 +13,13 @@
 
 ```
 @Target(AnnotationTarget.CLASS)
-annotation class ListFragmentAnnotation
-
+annotation class ListFragmentAnnotation(val showName: String = "")
 ```
 
 ## 解析自定义注解,根据注解生成方法
 
 ```
+
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("com.a.processor.ListFragmentAnnotation")
 @SupportedOptions(SimpleAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
@@ -42,13 +45,17 @@ class SimpleAnnotationProcessor : AbstractProcessor() {
                 return false
             }
 
-        val generatedKtFile = kotlinFile("test.generated") {
+        val generatedKtFile = kotlinFile("com.a.dproject") {
 
             var body = """
 
-val l = ArrayList<String>()
+val map = HashMap<String,String>()
             """.trimIndent()
             for (element in annotatedElements) {
+                val annotation: ListFragmentAnnotation =
+                    element.getAnnotation(ListFragmentAnnotation::class.java)
+                val showName = annotation.showName
+
                 val typeElement = element.toTypeElementOrNull() ?: continue
 
                 property("simpleClassName") {
@@ -57,26 +64,26 @@ val l = ArrayList<String>()
                 }
                 body = """
                     ${body}
-l.add("${typeElement.qualifiedName.toString()}")
+map.put("$showName","${typeElement.qualifiedName.toString()}")
                 """.trimIndent()
 
             }
 
 
-            function("getShowList") {
+            function("getAnnotationMap") {
 //                param<Array<String>>("args")
-                returnType("ArrayList<String>")
+                returnType("HashMap<String,String>")
                 body(
                     """
 ${body}
-return l
+return map
             """.trimIndent()
                 )
             }
 
         }
 
-        File(kaptKotlinGeneratedDir, "testGenerated.kt").apply {
+        File(kaptKotlinGeneratedDir, "CodeGenerated.kt").apply {
             parentFile.mkdirs()
             writeText(generatedKtFile.accept(PrettyPrinter(PrettyPrinterConfiguration())))
         }
@@ -134,7 +141,7 @@ plugins {
 在代码中使用注解
 
 ```
-@ListFragmentAnnotation
+@ListFragmentAnnotation("名字")
 class EmptyFragment
 
 ```
@@ -142,19 +149,23 @@ class EmptyFragment
 在代码中调用注解库生成的方法
 
 ```
-        getShowList().forEach {
-            list.add(ListDataModel(it, it))
+        getAnnotationMap().forEach {
+            val key = if (TextUtils.isEmpty(it.key)) {
+                it.value
+            } else {
+                it.key
+            }
+            list.add(ListDataModel(key, it.value))
         }
-
 ```
 
 注解生成的类的位置在
 ```
 app\build\generated\source\kaptKotlin\debug\
-本例中会生成 testGenerated.kt
+本例中会生成 CodeGenerated.kt
 
 ```
 
 
-根据上面的生成类,我们可以看到生成了一个testGenerated.kt的getShowList()
-外部可以直接调用getShowList()方法
+根据上面的生成类,我们可以看到生成了一个testGenerated.kt的getAnnotationMap()
+外部可以直接调用getAnnotationMap()方法
