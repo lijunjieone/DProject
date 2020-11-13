@@ -56,7 +56,9 @@ dependencies {
 //    kapt "frankiesardo:auto-parcel:$autoparcel_version"
 
     implementation 'com.github.android-notes.SwissArmyKnife:saklib:3.0.1-alpha1'
-    implementation("com.squareup.moshi:moshi:1.11.0")
+//    implementation("com.squareup.moshi:moshi:1.11.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")
 
     //dagger2，这个可以写在BaseMoudle里
     api "com.google.dagger:dagger:$dagger_version"

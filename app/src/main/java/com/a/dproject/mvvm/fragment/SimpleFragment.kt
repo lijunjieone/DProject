@@ -17,6 +17,8 @@ import com.a.helper.utils.Utils
 import com.a.helper.window.compact.compact.IWindowChangeListener
 import com.a.helper.window.compact.compact.WindowRootViewCompat
 import com.a.processor.ListFragmentAnnotation
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.wanjian.sak.SAK
 
 
@@ -106,6 +108,49 @@ class SimpleFragment : ArtBaseFragment() {
             car.engineA.run()
             car.engineB.run()
         }
+        binding.tvGetJson.setOnClickListener {
+//            "test".toast()
+            val h = handleJson()
+            h?.let {
+                h.hidden_card.rank.toast()
+            }
+        }
     }
 
+    fun handleJson(): BlackjackHand? {
+        val moshi = Moshi.Builder()
+                .addLast(KotlinJsonAdapterFactory())
+                .build()
+        val jsonAdapter = moshi.adapter<BlackjackHand>(BlackjackHand::class.java)
+        val blackjackHand = jsonAdapter.fromJson(json)
+        return blackjackHand
+    }
+
+    val json = """
+        {
+          "hidden_card": {
+            "rank": "6",
+            "suit": "SPADES"
+          },
+          "visible_cards": [
+            {
+              "rank": "4",
+              "suit": "CLUBS"
+            },
+            {
+              "rank": "A",
+              "suit": "HEARTS"
+            }
+          ]
+        }
+    """.trimIndent()
+
+    data class BlackjackHand(val hidden_card: Card, val visible_cards: List<Card>)
+    data class Card(val rank: String, val suit: Suit)
+    enum class Suit {
+        CLUBS,
+        DIAMONDS,
+        HEARTS,
+        SPADES
+    }
 }
