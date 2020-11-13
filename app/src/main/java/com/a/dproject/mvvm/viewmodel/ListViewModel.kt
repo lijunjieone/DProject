@@ -1,9 +1,10 @@
 package com.a.dproject.mvvm.viewmodel
 
 import android.app.Application
+import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import test.generated.getShowList
+import com.a.dproject.getAnnotationMap
 
 class ListViewModel(application: Application) :
     BaseViewModel<List<ListViewModel.ListDataModel>>(application) {
@@ -25,8 +26,13 @@ class ListViewModel(application: Application) :
             return itemList
         }
         val list = ArrayList<ListViewModel.ListDataModel>()
-        getShowList().forEach {
-            list.add(ListDataModel(it, it))
+        getAnnotationMap().forEach {
+            val key = if (TextUtils.isEmpty(it.key)) {
+                it.value
+            } else {
+                it.key
+            }
+            list.add(ListDataModel(key, it.value))
         }
 //        list.add(ListDataModel("SimpleFragment", "SimpleFragment"))
 //        list.add(ListDataModel("TabFragment", "TabFragment"))

@@ -14,7 +14,7 @@ import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.processor.ListFragmentAnnotation
 
 
-@ListFragmentAnnotation
+@ListFragmentAnnotation("Moshi类使用")
 class MoshiFragment : ArtBaseFragment() {
 
     protected lateinit var binding: FragmentMoshiBinding

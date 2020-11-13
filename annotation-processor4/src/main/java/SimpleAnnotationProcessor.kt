@@ -36,13 +36,17 @@ class SimpleAnnotationProcessor : AbstractProcessor() {
                 return false
             }
 
-        val generatedKtFile = kotlinFile("test.generated") {
+        val generatedKtFile = kotlinFile("com.a.dproject") {
 
             var body = """
                 
-val l = ArrayList<String>()
+val map = HashMap<String,String>()
             """.trimIndent()
             for (element in annotatedElements) {
+                val annotation: ListFragmentAnnotation =
+                    element.getAnnotation(ListFragmentAnnotation::class.java)
+                val showName = annotation.showName
+
                 val typeElement = element.toTypeElementOrNull() ?: continue
 
                 property("simpleClassName") {
@@ -51,26 +55,26 @@ val l = ArrayList<String>()
                 }
                 body = """
                     ${body}
-l.add("${typeElement.qualifiedName.toString()}")
+map.put("$showName","${typeElement.qualifiedName.toString()}")
                 """.trimIndent()
 
             }
 
 
-            function("getShowList") {
+            function("getAnnotationMap") {
 //                param<Array<String>>("args")
-                returnType("ArrayList<String>")
+                returnType("HashMap<String,String>")
                 body(
                     """
 ${body}
-return l
+return map
             """.trimIndent()
                 )
             }
 
         }
 
-        File(kaptKotlinGeneratedDir, "testGenerated.kt").apply {
+        File(kaptKotlinGeneratedDir, "CodeGenerated.kt").apply {
             parentFile.mkdirs()
             writeText(generatedKtFile.accept(PrettyPrinter(PrettyPrinterConfiguration())))
         }

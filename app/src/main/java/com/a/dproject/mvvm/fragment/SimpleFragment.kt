@@ -22,7 +22,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.wanjian.sak.SAK
 
 
-@ListFragmentAnnotation
+@ListFragmentAnnotation("简单例子")
 class SimpleFragment : ArtBaseFragment() {
 
     companion object {
