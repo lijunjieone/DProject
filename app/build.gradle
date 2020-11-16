@@ -4,7 +4,11 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
+apply plugin: 'hunter-debug'
 
+debugHunterExt {
+    runVariant = 'DEBUG'
+}
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -64,6 +68,9 @@ dependencies {
     api "com.google.dagger:dagger:$dagger_version"
     //多模块项目，这个必须在使用到dagger2的所有moudle里都配置
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'
+    implementation 'org.apache.commons:commons-lang3:3.7'
 
 
     testImplementation 'junit:junit:4.+'
