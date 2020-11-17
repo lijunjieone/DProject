@@ -3,11 +3,11 @@ package com.a.dproject.mvvm.viewmodel
 import android.app.Application
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.a.dproject.di.NetworkModule
 import com.a.dproject.network.PokedexService
 import com.a.dproject.toast
+import com.skydoves.pokedex.model.Pokemon
 import com.skydoves.pokedex.model.PokemonResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,7 +20,7 @@ class MoshiViewModel(application: Application) :
     var dataLive = MutableLiveData<Boolean>()
     private lateinit var mApiService: PokedexService
 
-    data class MoshiDataModel(val titleResId: Int, val fragment: Fragment)
+    data class MoshiDataModel(val poke: Pokemon)
 
     var id = 0L
 
@@ -39,6 +39,10 @@ class MoshiViewModel(application: Application) :
                 if (response.isSuccessful) {
                     try {
                         response.body()?.next.toString().toast()
+                        val list = response.body()?.results
+                        list?.let {
+                            itemList.value = list.map { MoshiDataModel(it) }
+                        }
 //                        response.body()!!.string().toast()
 //                        Log.i(TAG, response.body()!!.string() + "----" + response.code())
                     } catch (e: IOException) {

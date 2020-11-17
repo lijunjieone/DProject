@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
+import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -64,6 +66,9 @@ class MoshiFragment : ArtBaseFragment() {
 
 
     private fun initObserver() {
+        viewModel.itemList.observe(this, Observer {
+            it.size.toString().toast()
+        })
 
     }
 
