@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
-import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -57,6 +55,7 @@ class MoshiFragment : ArtBaseFragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(MoshiViewModel::class.java)
+        viewModel.init()
         //可以在这里完成外部数据跟viewmodel的通讯
         id = arguments?.getLong(PARAM_DEFAULT_ID) ?: 0L
         viewModel.id = id
@@ -65,20 +64,19 @@ class MoshiFragment : ArtBaseFragment() {
 
 
     private fun initObserver() {
-        viewModel.pokemonListLiveData.observe(this, Observer {
-            "pokemon.size ${it.size}".toast()
-        })
+
     }
 
 
     private fun initView() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.message.setOnClickListener {
+            viewModel.getDataByretrofit()
+        }
     }
 
     private fun initData() {
-        viewModel.loadDataByNetwork()
-        viewModel.fetchPokemonList(0)
     }
 
 
