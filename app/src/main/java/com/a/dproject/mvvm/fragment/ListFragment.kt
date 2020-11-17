@@ -16,9 +16,7 @@ import com.a.dproject.databinding.FragmentListBinding
 import com.a.dproject.mvvm.viewmodel.ListViewModel
 import com.a.dproject.views.CommonMultiItem
 import com.a.dproject.views.adapter.ListAdapter
-import com.a.processor.ListFragmentAnnotation
 
-@ListFragmentAnnotation
 class ListFragment : ArtBaseFragment() {
 
     protected lateinit var binding: FragmentListBinding
