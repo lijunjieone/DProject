@@ -7,7 +7,7 @@ plugins {
 apply plugin: 'hunter-debug'
 
 debugHunterExt {
-    runVariant = 'DEBUG'
+    runVariant = 'NEVER'
 }
 android {
     compileSdkVersion 30
