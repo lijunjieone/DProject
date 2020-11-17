@@ -29,7 +29,7 @@ class MoshiViewModel(application: Application) :
         mApiService = retrofit.create(PokedexService::class.java)
     }
 
-    fun getDataByretrofit() {
+    fun getDataByRetrofit() {
         val netData: Call<PokemonResponse> = mApiService.fetchPokemonList(0)
         netData.enqueue(object : Callback<PokemonResponse> {
             override fun onResponse(

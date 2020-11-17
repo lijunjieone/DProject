@@ -77,7 +77,7 @@ class MoshiFragment : ArtBaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.message.setOnClickListener {
-            viewModel.getDataByretrofit()
+            viewModel.getDataByRetrofit()
         }
     }
 
