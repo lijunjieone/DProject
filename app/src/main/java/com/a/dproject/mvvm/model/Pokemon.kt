@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-package com.a.dproject.network
+package com.skydoves.pokedex.model
 
-import com.skydoves.pokedex.model.PokemonResponse
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import kotlinx.android.parcel.Parcelize
 
-interface PokedexService {
+@Entity
+@Parcelize
+@JsonClass(generateAdapter = true)
+data class Pokemon(
+  var page: Int = 0,
+  @field:Json(name = "name") @PrimaryKey val name: String,
+  @field:Json(name = "url") val url: String
+) : Parcelable {
 
-  @GET("pokemon")
-  fun fetchPokemonList(
-    @Query("limit") limit: Int = 20,
-    @Query("offset") offset: Int = 0
-  ): Call<PokemonResponse>
-
-//  @GET("pokemon/{name}")
-//  suspend fun fetchPokemonInfo(@Path("name") name: String): ApiResponse<PokemonInfo>
+  fun getImageUrl(): String {
+    val index = url.split("/".toRegex()).dropLast(1).last()
+    return "https://pokeres.bastionbot.org/images/pokemon/$index.png"
+  }
 }

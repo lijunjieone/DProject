@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.a.dproject.di.NetworkModule
 import com.a.dproject.network.PokedexService
 import com.a.dproject.toast
-import okhttp3.ResponseBody
+import com.skydoves.pokedex.model.PokemonResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,20 +30,24 @@ class MoshiViewModel(application: Application) :
     }
 
     fun getDataByretrofit() {
-        val netData: Call<ResponseBody> = mApiService.fetchPokemonList(0)
-        netData.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        val netData: Call<PokemonResponse> = mApiService.fetchPokemonList(0)
+        netData.enqueue(object : Callback<PokemonResponse> {
+            override fun onResponse(
+                call: Call<PokemonResponse>,
+                response: Response<PokemonResponse>
+            ) {
                 if (response.isSuccessful) {
                     try {
-                        response.body()!!.string().toast()
-                        Log.i(TAG, response.body()!!.string() + "----" + response.code())
+                        response.body()?.next.toString().toast()
+//                        response.body()!!.string().toast()
+//                        Log.i(TAG, response.body()!!.string() + "----" + response.code())
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
                 }
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<PokemonResponse>, t: Throwable) {
                 Log.e(TAG, t.toString())
             }
         })

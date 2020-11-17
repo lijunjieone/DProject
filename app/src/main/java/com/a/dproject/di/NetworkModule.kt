@@ -16,6 +16,7 @@
 
 package com.a.dproject.di
 
+import com.skydoves.pokedex.network.HttpRequestInterceptor
 import com.skydoves.sandwich.coroutines.CoroutinesResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -31,6 +32,7 @@ object NetworkModule {
   @Singleton
   fun provideOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
+      .addInterceptor(HttpRequestInterceptor())
       .build()
   }
 

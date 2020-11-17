@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.a.dproject.network
+package com.skydoves.pokedex.model
 
-import com.skydoves.pokedex.model.PokemonResponse
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-interface PokedexService {
-
-  @GET("pokemon")
-  fun fetchPokemonList(
-    @Query("limit") limit: Int = 20,
-    @Query("offset") offset: Int = 0
-  ): Call<PokemonResponse>
-
-//  @GET("pokemon/{name}")
-//  suspend fun fetchPokemonInfo(@Path("name") name: String): ApiResponse<PokemonInfo>
-}
+@JsonClass(generateAdapter = true)
+data class PokemonResponse(
+  @field:Json(name = "count") val count: Int,
+  @field:Json(name = "next") val next: String?,
+  @field:Json(name = "previous") val previous: String?,
+  @field:Json(name = "results") val results: List<Pokemon>
+)
