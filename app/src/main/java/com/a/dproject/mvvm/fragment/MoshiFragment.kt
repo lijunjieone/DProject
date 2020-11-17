@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
+import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 
 
-@ListFragmentAnnotation("Moshi类使用")
+@ListFragmentAnnotation("网路库,携程,Moshi")
 class MoshiFragment : ArtBaseFragment() {
 
     protected lateinit var binding: FragmentMoshiBinding
@@ -63,6 +65,9 @@ class MoshiFragment : ArtBaseFragment() {
 
 
     private fun initObserver() {
+        viewModel.pokemonListLiveData.observe(this, Observer {
+            "pokemon.size ${it.size}".toast()
+        })
     }
 
 
@@ -72,6 +77,8 @@ class MoshiFragment : ArtBaseFragment() {
     }
 
     private fun initData() {
+        viewModel.loadDataByNetwork()
+        viewModel.fetchPokemonList(0)
     }
 
 
