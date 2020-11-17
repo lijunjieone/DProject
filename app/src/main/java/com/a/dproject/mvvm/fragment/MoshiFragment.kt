@@ -66,7 +66,7 @@ class MoshiFragment : ArtBaseFragment() {
 
 
     private fun initObserver() {
-        viewModel.itemList.observe(this, Observer {
+        viewModel.itemList.observe(viewLifecycleOwner, Observer {
             it.size.toString().toast()
         })
 
