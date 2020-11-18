@@ -95,7 +95,7 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         })
 
         viewModel.result.observe(viewLifecycleOwner, Observer {
-            it.toString().toast()
+            it.path.toString().toast()
 
         })
 
@@ -126,8 +126,9 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
 
     companion object {
+        class FileDownloadResult(val path: String, val status: FileDownloadStatus)
 
-        enum class FileDownloadResult {
+        enum class FileDownloadStatus {
             Successful,
             StorageError,
             OthersError
@@ -154,8 +155,8 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
                     val client = OkHttpClient()
                     val request = Request.Builder().url(url).build()
                     val response = client.newCall(request).execute()
+                    var dirPath = ""
                     if (response.isSuccessful) {
-                        var dirPath = ""
                         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                             dirPath =
                                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -199,23 +200,39 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
                                 if (outputStream != null) {
                                     sink = outputStream.sink().buffer()
                                 } else {
-                                    return@runCatching FileDownloadResult.OthersError
+                                    return@runCatching FileDownloadResult(
+                                        dirPath,
+                                        FileDownloadStatus.OthersError
+                                    )
                                 }
                             } else {
-                                return@runCatching FileDownloadResult.OthersError
+                                return@runCatching FileDownloadResult(
+                                    dirPath,
+                                    FileDownloadStatus.OthersError
+                                )
+//                                return@runCatching FileDownloadStatus.OthersError
                             }
                         } else {
                             sink = downloadedFile.sink(true).buffer()
                         }
 
                         val responseBody =
-                            response.body ?: return@runCatching FileDownloadResult.OthersError
+                            response.body ?: return@runCatching FileDownloadResult(
+                                dirPath,
+                                FileDownloadStatus.OthersError
+                            )
+//                        response.body ?: return@runCatching FileDownloadStatus.OthersError
 
                         try {
                             val contentLength = responseBody.contentLength()
                             if (contentLength > getAvailableSize(dirPath)) {
 
-                                continuation.resume(FileDownloadResult.StorageError)
+                                continuation.resume(
+                                    FileDownloadResult(
+                                        dirPath,
+                                        FileDownloadStatus.StorageError
+                                    )
+                                )
                             }
                             var totalRead: Long = 0
                             var lastRead: Long
@@ -249,7 +266,7 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
                         }
 
                     }
-                    return@runCatching FileDownloadResult.Successful
+                    return@runCatching FileDownloadResult(dirPath, FileDownloadStatus.Successful)
                 }.onFailure {
                     isHasError = true
                     continuation.resumeWithException(it)
