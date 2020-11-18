@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.a.dproject.di.NetworkModule
+import com.a.dproject.mvvm.fragment.MoshiFragment
 import com.a.dproject.network.PokedexService
 import com.a.dproject.toast
 import com.skydoves.pokedex.model.Pokemon
@@ -62,14 +63,15 @@ class MoshiViewModel(application: Application) :
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
 
-    private val _result: MutableLiveData<Boolean> = MutableLiveData()
-    val result: LiveData<Boolean> = _result
+    private val _result: MutableLiveData<MoshiFragment.Companion.FileDownloadResult> =
+        MutableLiveData()
+    val result: LiveData<MoshiFragment.Companion.FileDownloadResult> = _result
 
 
     fun fileDownload(url: String) {
         launch {
             withContext(Dispatchers.IO) {
-                _result.postValue(true)
+                _result.postValue(MoshiFragment.storageFile(url, getApplication()))
             }
         }
     }
