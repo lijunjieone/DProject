@@ -22,15 +22,13 @@ import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.BufferedSink
 import okio.buffer
 import okio.sink
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -38,6 +36,7 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import kotlin.system.measureTimeMillis
 
 
 @ListFragmentAnnotation("网路库,携程,Moshi")
@@ -101,6 +100,80 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
     }
 
+    suspend fun test1() {
+        Timber.d("1")
+        val job = GlobalScope.launch() {
+            Timber.d("2")
+        }
+
+        Timber.d("3")
+        job.join()
+        Timber.d("4")
+
+    }
+
+    suspend fun test2() {
+        Timber.d("1")
+        val job = GlobalScope.launch(start = CoroutineStart.LAZY) {
+            Timber.d("2")
+        }
+
+        Timber.d("3")
+        job.join()
+        Timber.d("4")
+
+    }
+
+    private suspend fun testCoroutineCancel() {
+        Timber.d("1")
+        val job = GlobalScope.launch(start = CoroutineStart.ATOMIC) {
+            Timber.d("2")
+            delay(1000)
+            Timber.d("3")
+        }
+        job.cancel()
+//        job.join()
+        Timber.d("4")
+        job.join()
+
+    }
+
+    private suspend fun testCoroutineCancel2() {
+        Timber.d("1")
+        val job = GlobalScope.launch(start = CoroutineStart.LAZY) {
+            Timber.d("2")
+            delay(1000)
+            Timber.d("3")
+        }
+//        job.join()
+        Timber.d("4")
+        job.cancel()
+        job.join()
+        delay(50)
+
+    }
+
+    fun testAsync1() {
+        runBlocking {
+//            testCoroutineCancel2()
+            val time = measureTimeMillis {
+                val one = async {
+                    delay(100)
+                    100
+                }
+                val two = async {
+                    delay(200)
+                    200
+                }
+
+                val log = "The answer is ${one.await()} and ${two.await()}"
+                Timber.d(log)
+            }
+
+            Timber.d("Complated in $time ms")
+        }
+    }
+
 
     private fun initView() {
         binding.viewModel = viewModel
@@ -112,7 +185,44 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
             testCoroutine()
         }
 
+        binding.tvEvent.setOnLongClickListener {
 
+            launch {
+//                testCoroutineCancel2()
+//                testAsync1()
+
+                testCoroutineToken()
+            }
+            "launch run".toast()
+            true
+        }
+
+
+    }
+
+    fun testCoroutineToken() {
+        launch {
+            val token = requestToken()
+            val post = createPost(token, "item1")
+            processPost(post)
+        }
+    }
+
+    suspend fun requestToken(): String {
+        delay(1000)
+        Timber.d("requestToken")
+        return "thisisatoken"
+    }
+
+    suspend fun createPost(token: String, item: String): String {
+        delay(2000)
+        Timber.d("createPost:${token}")
+        return "url+${token}${item}"
+    }
+
+    suspend fun processPost(post: String) {
+        delay(3000)
+        Timber.d("processPost${post}")
     }
 
     private fun testCoroutine() {
