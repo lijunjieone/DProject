@@ -14,10 +14,15 @@ import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 
 @ListFragmentAnnotation("网路库,携程,Moshi")
-class MoshiFragment : ArtBaseFragment() {
+class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
     protected lateinit var binding: FragmentMoshiBinding
     lateinit var viewModel: MoshiViewModel
@@ -70,6 +75,10 @@ class MoshiFragment : ArtBaseFragment() {
             it.size.toString().toast()
         })
 
+        viewModel.result.observe(viewLifecycleOwner, Observer {
+            "result".toast()
+        })
+
     }
 
 
@@ -78,6 +87,17 @@ class MoshiFragment : ArtBaseFragment() {
         binding.lifecycleOwner = this
         binding.message.setOnClickListener {
             viewModel.getDataByRetrofit()
+        }
+        binding.tvEvent.setOnClickListener {
+            testCoroutine()
+        }
+
+
+    }
+
+    private fun testCoroutine() {
+        launch {
+            viewModel.fileDownload("test")
         }
     }
 
@@ -96,6 +116,9 @@ class MoshiFragment : ArtBaseFragment() {
             arguments = args
         }
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + Job()
 
 
 }
