@@ -16,7 +16,7 @@ open class ArtBaseFragment : Fragment() {
     protected var loadingView: ViewGroup? = null
 
 
-    private var loadingType: Boolean = true //true为骨架屏，false为普通loading
+    private var loadingType: Boolean = true
 
 
     companion object {
@@ -31,8 +31,6 @@ open class ArtBaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-//        rootView = inflater.inflate(R.layout.fragment_base, container, false) as FrameLayout
-
         rootView = FrameLayout(container!!.context)
         if (getContentId() != 0) {
             contentView = inflater.inflate(getContentId(), rootView, false)
@@ -58,38 +56,22 @@ open class ArtBaseFragment : Fragment() {
     }
 
 
-    //设置全屏刷新类型
-    //0为普通骨架屏，1为列表骨架屏，2为自定义loading
     fun setLoadingType(type: Boolean) {
         loadingType = type
     }
 
-    /**
-     * 设置加载的页面资源id
-     */
     open fun getContentId(): Int {
         return 0
     }
 
-    /**
-     * 设置骨架屏资源id
-     * 与getStoneItemId()互斥
-     */
     open fun getStoneId(): Int {
         return 0
     }
 
-    /**
-     * 设置列表骨架屏item的资源id
-     * 与getStoneId()互斥
-     */
     open fun getStoneItemId(): Int {
         return 0
     }
 
-    /**
-     * 设置全屏loading的资源id
-     */
     open fun getLoadingId(): Int {
         return 0
     }
