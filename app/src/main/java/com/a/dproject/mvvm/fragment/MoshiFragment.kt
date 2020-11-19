@@ -24,6 +24,10 @@ import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.BufferedSink
@@ -194,13 +198,52 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
 //                testCoroutineSequence()
 //                testWithTimeout1()
-                testCancel3()
+//                testChannel2()
+//                testFlow1()
+                testFlow2()
             }
             "launch run".toast()
             true
         }
 
 
+    }
+
+    @OptIn(InternalCoroutinesApi::class)
+    private fun testFlow2() {
+        val intFlow = flow {
+            (1..3).forEach {
+                Timber.d("Flow create int :${it}")
+                emit(it)
+                delay(1000)
+            }
+        }
+
+        GlobalScope.launch {
+            intFlow.flowOn(Dispatchers.IO).collect(object : FlowCollector<Int> {
+                override suspend fun emit(value: Int) {
+                    Timber.d("flow receiver:${value}")
+                }
+
+            })
+
+        }
+
+
+    }
+
+    private fun testFlow1() {
+        val ints = sequence<Int> {
+            (1..3).forEach {
+                yield(it)
+
+                Timber.d("sequence1:${it}")
+//                delay(100)
+            }
+        }
+        ints.iterator().forEach {
+            Timber.d("i:${it}")
+        }
     }
 
     suspend fun getUserSuspend(): String {
@@ -218,7 +261,23 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         }
     }
 
-    private fun testCancel3() {
+    private fun testChannel2() {
+        val channel = GlobalScope.produce<String>(Dispatchers.Unconfined) {
+            Timber.d("A")
+            send("A")
+            Timber.d("B")
+            send("B")
+            Timber.d("Done")
+        }
+
+        launch {
+            for (item in channel) {
+                Timber.d("receiver: ${item}")
+            }
+        }
+    }
+
+    private fun testChannel1() {
         val channel = Channel<Int>(3)
 
         val producer = GlobalScope.launch {
