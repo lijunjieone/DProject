@@ -23,6 +23,7 @@ import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.BufferedSink
@@ -32,10 +33,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.util.*
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.*
 import kotlin.system.measureTimeMillis
 
 
@@ -191,7 +189,12 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 //                testCoroutineCancel2()
 //                testAsync1()
 
-                testCoroutineToken()
+//                testCoroutineToken()
+//                testCoroutineMulti1()
+
+//                testCoroutineSequence()
+//                testWithTimeout1()
+                testCancel3()
             }
             "launch run".toast()
             true
@@ -200,18 +203,198 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
     }
 
+    suspend fun getUserSuspend(): String {
+        delay(100)
+        return "lijunjie"
+    }
+
+    private fun testWithTimeout1() {
+        GlobalScope.launch {
+            val user = withTimeoutOrNull(500) {
+                getUserSuspend()
+            }
+
+            Timber.d(user)
+        }
+    }
+
+    private fun testCancel3() {
+        val channel = Channel<Int>(3)
+
+        val producer = GlobalScope.launch {
+            var i = 0
+
+            while (true) {
+                delay(80)
+                Timber.d("producer: ${i}")
+                channel.send(i++)
+            }
+        }
+
+        val consumer = GlobalScope.launch {
+            while (true) {
+                val element = channel.receive()
+                delay(1000)
+                Timber.d("consumer: ${element}")
+            }
+        }
+
+        val consumer2 = GlobalScope.launch {
+            while (true) {
+                val element = channel.receive()
+                delay(1000)
+                Timber.d("consumer2: ${element}")
+            }
+        }
+
+        launch {
+            producer.join()
+            consumer.join()
+            consumer2.join()
+        }
+
+    }
+
+    private fun testCancel2() {
+        GlobalScope.launch {
+            val job = launch {
+                listOf<Int>(1, 2, 3, 4).forEach {
+                    yield()
+                    Timber.d("${it}.start")
+                    delay(it * 100L)
+                    Timber.d("${it}.end")
+                }
+            }
+
+            delay(600)
+            job.cancelAndJoin()
+        }
+
+
+    }
+
+    class LogInterceptor : ContinuationInterceptor {
+        override val key: CoroutineContext.Key<*>
+            get() = ContinuationInterceptor
+
+        override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> {
+            return LogContinuation(continuation)
+        }
+
+    }
+
+
+    class LogContinuation<T>(private val continuation: Continuation<T>) :
+        Continuation<T> by continuation {
+        override fun resumeWith(result: Result<T>) {
+            Timber.d("before resumeWith:$result")
+            continuation.resumeWith(result)
+            Timber.d("after resumeWith.")
+        }
+    }
+
+    fun testCoroutineSequence() {
+        val fibonacci = kotlin.sequences.sequence<Int> {
+            yield(1)
+            var current = 1
+            var next = 1
+
+            while (true) {
+                yield(next)
+                next += current
+                current = next - current
+
+            }
+
+        }
+
+        fibonacci.take(10).forEach {
+            Timber.d("index:${it}")
+        }
+
+    }
+
+    fun testCoroutine4() {
+        suspend {
+            Timber.d("In Coroutine ${coroutineContext[CoroutineName]}")
+            100
+        }.startCoroutine(object : Continuation<Int> {
+            override val context: CoroutineContext
+                get() = LogInterceptor()
+
+            override fun resumeWith(result: Result<Int>) {
+                Timber.d("Coroutine End")
+            }
+
+        })
+    }
+
+    fun testCoroutine3() {
+        val continuation = suspend {
+            Timber.d("In Coroutine.")
+            5
+        }.createCoroutine(object : Continuation<Int> {
+            override val context: CoroutineContext
+                get() = LogInterceptor()
+
+            override fun resumeWith(result: Result<Int>) {
+                Timber.d("Coroutine End ${result}")
+            }
+
+        })
+
+        continuation.resume(Unit)
+    }
+
+    interface Generator<T> {
+        operator fun iterator(): Iterator<T>
+    }
+
+    sealed class State {
+        class NotReady(val continuation: Continuation<Unit>) : State()
+        class Ready<T>(val continuation: Continuation<Unit>, val nextValue: T) : State()
+        object Done : State()
+    }
+
+    fun testCoroutineMulti1() {
+        val coroutineDispatcher = newSingleThreadContext("ctx")
+
+        GlobalScope.launch(Dispatchers.Unconfined) {
+            Timber.d("the first coroutine start ${Thread.currentThread().name}")
+            delay(200)
+            Timber.d("the first coroutine end ${Thread.currentThread().name}")
+        }
+
+        GlobalScope.launch(coroutineDispatcher) {
+            Timber.d("the second coroutine start ${Thread.currentThread().name}")
+            delay(300)
+            Timber.d("the second coroutine end ${Thread.currentThread().name}")
+        }
+
+
+    }
+
     fun testCoroutineToken() {
         launch {
-            val token = requestToken()
-            val post = createPost(token, "item1")
+            val token = async { requestToken() }.await()
+            val item = async { requestItem() }.await()
+            val post = createPost(token, item)
             processPost(post)
         }
     }
 
     suspend fun requestToken(): String {
+        Timber.d("requestToken start")
         delay(1000)
         Timber.d("requestToken")
         return "thisisatoken"
+    }
+
+    suspend fun requestItem(): String {
+        Timber.d("request Item From Server start")
+        delay(2000)
+        Timber.d("request Item From Server")
+        return "item1"
     }
 
     suspend fun createPost(token: String, item: String): String {
