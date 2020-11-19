@@ -222,11 +222,16 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         GlobalScope.launch {
             intFlow.flowOn(Dispatchers.IO).collect(object : FlowCollector<Int> {
                 override suspend fun emit(value: Int) {
-                    Timber.d("flow receiver:${value}")
+                    Timber.d("flow receiver:${value} intFlow:${intFlow}")
                 }
 
             })
+            intFlow.flowOn(Dispatchers.IO).collect(object : FlowCollector<Int> {
+                override suspend fun emit(value: Int) {
+                    Timber.d("flow receiver2:${value} intFlow:${intFlow}")
+                }
 
+            })
         }
 
 
