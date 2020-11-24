@@ -29,7 +29,10 @@ class SimpleActivity : AppCompatActivity() {
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .request { allGranted, grantedList, deniedList ->
                 if (allGranted) {
-                    Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
+//                    runOnUiThread {
+//                        Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
+//                    }
+//                    "all".toast()
                 } else {
                     Toast.makeText(
                         this,

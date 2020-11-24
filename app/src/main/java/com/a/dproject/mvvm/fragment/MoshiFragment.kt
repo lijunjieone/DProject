@@ -202,10 +202,53 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 //                testFlow2()
 //                testFlow4()
 
-                testSelect1()
+//                testSelect1()
+//                testSelect2()
+                testSelect3()
             }
             "launch run".toast()
             true
+        }
+
+
+    }
+
+
+    private fun testSelect3() {
+        val channels = List(10) { Channel<Int>() }
+
+        GlobalScope.launch {
+            val index = Random().nextInt(10)
+            channels[index].send(100)
+            val result = channels.map {
+                it.consumeAsFlow()
+            }.merge().first()
+
+
+            Timber.d("receive $result")
+        }
+
+
+    }
+
+    private fun testSelect2() {
+        val channels = List<Channel<Int>>(10) { Channel<Int>() }
+
+        GlobalScope.launch {
+            delay(100)
+            val index = Random().nextInt(10)
+            Timber.d("send data to $index")
+            channels[index].send(200)
+
+
+            val result = select<Int> {
+                channels.forEach {
+                    it.onReceive { it }
+
+                }
+            }
+
+            Timber.d("receive $result")
         }
 
 

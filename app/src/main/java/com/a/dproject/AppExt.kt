@@ -7,7 +7,11 @@ fun Int.toast() {
 }
 
 fun String.toast() {
-    Toast.makeText(DApp.appContext, this, Toast.LENGTH_SHORT).show()
+    try {
+        Toast.makeText(DApp.appContext, this, Toast.LENGTH_SHORT).show()
+    } catch (e: Exception) {
+        //don't print
+    }
 }
 
 fun Int.string(): String {
