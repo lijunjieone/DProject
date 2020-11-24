@@ -25,9 +25,8 @@ import com.a.processor.ListFragmentAnnotation
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.selects.select
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.BufferedSink
@@ -201,13 +200,82 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 //                testChannel2()
 //                testFlow1()
 //                testFlow2()
-                testFlow3()
+//                testFlow4()
+
+                testSelect1()
             }
             "launch run".toast()
             true
         }
 
 
+    }
+
+    private fun testSelect1() {
+
+        GlobalScope.launch {
+            val localDeferred = async { getUserFromLocal() }
+            val remoteDeferred = async { getUserFromApi() }
+
+            val res = select<String> {
+                localDeferred.onAwait {
+                    "$it"
+                }
+                remoteDeferred.onAwait {
+                    "$it"
+                }
+
+            }
+
+            res?.let {
+                Timber.d("receive: $it")
+            }
+
+        }
+    }
+
+
+    private suspend fun getUserFromApi(): String {
+        val random = 500 + Random().nextInt(100)
+        Timber.d("send Server after $random")
+        delay(random.toLong())
+        Timber.d("send server")
+        return "Server"
+    }
+
+    private suspend fun getUserFromLocal(): String {
+        val random = 500 + Random().nextInt(100)
+        Timber.d("send local after $random")
+        delay(random.toLong())
+        Timber.d("send local")
+        return "local"
+    }
+
+    private fun testFlow4() {
+        val intFlow = flow {
+            List(10) {
+                Timber.d("create $it")
+                emit(it)
+            }
+        }.map {
+            flow {
+                List(it) {
+                    Timber.d("send $it")
+                    emit(it)
+                }
+            }
+        }
+
+        GlobalScope.launch {
+            intFlow.collect {
+                it.collect {
+                    Timber.d("Collection $it")
+                    delay(1000)
+                    Timber.d("$it collected")
+                }
+
+            }
+        }
     }
 
     @OptIn(InternalCoroutinesApi::class)
