@@ -36,6 +36,7 @@ import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.*
 import kotlin.system.measureTimeMillis
 
@@ -204,7 +205,8 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
 //                testSelect1()
 //                testSelect2()
-                testSelect3()
+//                testSelect3()
+                testDataSecurity1()
             }
             "launch run".toast()
             true
@@ -213,6 +215,35 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 
     }
 
+    private fun testDataSecurity1() {
+        var count = 0
+
+        List(1000) {
+            GlobalScope.launch {
+                count++
+            }
+        }
+
+        GlobalScope.launch {
+            delay(10)
+            Timber.d("count:${count}")
+        }
+    }
+
+    private fun testDataSecurity2() {
+        var count = AtomicInteger(0)
+
+        List(1000) {
+            GlobalScope.launch {
+                count.incrementAndGet()
+            }
+        }
+
+        GlobalScope.launch {
+            delay(10)
+            Timber.d("count:${count.get()}")
+        }
+    }
 
     private fun testSelect3() {
         val channels = List(10) { Channel<Int>() }
