@@ -200,12 +200,34 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
 //                testWithTimeout1()
 //                testChannel2()
 //                testFlow1()
-                testFlow2()
+//                testFlow2()
+                testFlow3()
             }
             "launch run".toast()
             true
         }
 
+
+    }
+
+    @OptIn(InternalCoroutinesApi::class)
+    private fun testFlow3() {
+        val intFlow = flow {
+            List(100) {
+                emit(it)
+            }
+        }
+
+        GlobalScope.launch {
+            intFlow.collect(object : FlowCollector<Int> {
+                override suspend fun emit(value: Int) {
+                    Timber.d("Collection $value")
+                    delay(100)
+                    Timber.d("$value collected")
+                }
+            })
+
+        }
 
     }
 
