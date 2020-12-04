@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.a.dproject.di.NetworkModule
 import com.a.dproject.mvvm.fragment.MoshiFragment
 import com.a.dproject.network.PokedexService
@@ -33,11 +34,14 @@ class MoshiViewModel(application: Application) :
     }
 
     fun getDataByRetrofit() {
+        viewModelScope.launch {
+            "viewModelScope".toast()
+        }
         val netData: Call<PokemonResponse> = mApiService.fetchPokemonList(0)
         netData.enqueue(object : Callback<PokemonResponse> {
             override fun onResponse(
-                call: Call<PokemonResponse>,
-                response: Response<PokemonResponse>
+                    call: Call<PokemonResponse>,
+                    response: Response<PokemonResponse>
             ) {
                 if (response.isSuccessful) {
                     try {

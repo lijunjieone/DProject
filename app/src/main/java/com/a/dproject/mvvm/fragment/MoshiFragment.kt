@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentMoshiBinding
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
@@ -48,6 +49,8 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
     lateinit var viewModel: MoshiViewModel
 
     var id: Long = 0L
+
+    private val mainScope by lazy { MainScope() }
 
 
     override fun getContentId(): Int {
@@ -177,6 +180,11 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mainScope.cancel()
+    }
+
     private fun initView() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -185,6 +193,10 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         }
         binding.tvEvent.setOnClickListener {
             testCoroutine()
+        }
+
+        binding.tvEvent2.setOnClickListener {
+            testLifecycle1()
         }
 
         binding.tvEvent.setOnLongClickListener {
@@ -213,6 +225,19 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         }
 
 
+    }
+
+    private fun testLifecycle1() {
+        lifecycleScope.launch {
+            "lifecycleScope".toast()
+        }
+    }
+
+    private fun testLifecycle2() {
+        mainScope.launch {
+            delay(15000)
+            "main UI ".toast()
+        }
     }
 
     private fun testDataSecurity1() {
