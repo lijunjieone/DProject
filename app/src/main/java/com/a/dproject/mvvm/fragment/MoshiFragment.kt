@@ -43,7 +43,7 @@ import kotlin.system.measureTimeMillis
 
 
 @ListFragmentAnnotation("网路库,携程,Moshi")
-class MoshiFragment : ArtBaseFragment(), CoroutineScope {
+class MoshiFragment : ArtBaseFragment(), CoroutineScope, View.OnClickListener {
 
     protected lateinit var binding: FragmentMoshiBinding
     lateinit var viewModel: MoshiViewModel
@@ -82,6 +82,23 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
         initData()
     }
 
+    var process = 0
+    override fun onClick(p0: View?) {
+        p0?.let {
+            when (it) {
+                binding.tvEvent4 -> {
+//                    "event4".toast()
+                    if (process >= 100) {
+                        process = 0
+                    } else {
+                        process += 25
+                    }
+
+                    binding.doraemonContainer.progress = process / 100.0f
+                }
+            }
+        }
+    }
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(MoshiViewModel::class.java)
@@ -188,6 +205,7 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope {
     private fun initView() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.onClickListener = this
         binding.message.setOnClickListener {
             viewModel.getDataByRetrofit()
         }
