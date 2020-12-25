@@ -13,5 +13,9 @@
 [SAK工程仓库](https://github.com/android-notes/SwissArmyKnife)
 
 
+# 模板代码使用
+-  templates.py c -ap /d/dev/android/DProject/ -pn com.a.dproject -mn app -tp /d/dev/code/TemplateProject/ -tn ArtMVVMSimpleFragment -sn SurfaceView
+
+
 ## Feture
 -
