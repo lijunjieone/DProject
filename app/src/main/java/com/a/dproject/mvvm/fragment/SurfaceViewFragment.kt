@@ -90,7 +90,8 @@ class SurfaceViewFragment : ArtBaseFragment(), View.OnClickListener {
         p0?.let {
             when (it) {
                 binding.message -> {
-                    "message".toast()
+//                    "message".toast()
+                    binding.svTextview.surfaceTextureListener.toString().toast()
                 }
                 binding.tvEvent -> {
                     "event".toast()

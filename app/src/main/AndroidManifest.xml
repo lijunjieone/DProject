@@ -13,6 +13,7 @@
         android:name=".DApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.DProject">
         <activity android:name="com.a.dproject.mvvm.activity.SimpleActivity">
             <intent-filter>
@@ -21,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.a.dproject.MainActivity"></activity>
+        <activity
+            android:name="com.a.dproject.MainActivity"
+            android:hardwareAccelerated="true"></activity>
 
         <provider
             android:name="androidx.startup.InitializationProvider"
