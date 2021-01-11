@@ -56,6 +56,11 @@ dependencies {
     implementation project(":annotation-processor4")
     kapt project(":annotation-processor4")
 
+    api "com.google.ar:core:$rootProject.ext.arCoreVersion"
+    api "com.google.ar.sceneform.ux:sceneform-ux:$rootProject.ext.sceneFormVersion"
+    api "com.google.ar.sceneform:core:$rootProject.ext.sceneFormVersion"
+
+
 //    implementation "frankiesardo:auto-parcel:$autoparcel_version"
 //    kapt "frankiesardo:auto-parcel:$autoparcel_version"
 

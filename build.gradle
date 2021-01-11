@@ -34,3 +34,16 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+ext {
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.2'
+    minSdkVersion = 21
+    targetSdkVersion = 28
+    versionCode = 102000
+    versionName = "1.2.0"
+
+    arCoreVersion ='1.22.0'
+    sceneFormVersion = '1.17.1'
+}

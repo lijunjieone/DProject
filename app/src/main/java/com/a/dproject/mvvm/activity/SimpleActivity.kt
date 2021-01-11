@@ -26,7 +26,7 @@ class SimpleActivity : AppCompatActivity() {
         super.onResume()
 
         PermissionX.init(this)
-            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
             .request { allGranted, grantedList, deniedList ->
                 if (allGranted) {
 //                    runOnUiThread {
