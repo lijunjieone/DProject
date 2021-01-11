@@ -37,13 +37,13 @@ class ListAdapter(data: List<CommonMultiItem<ListViewModel.ListDataModel>>) :
             CommonMultiItem.ITEM_HEADER -> helper.setText(R.id.iv_header, item.content?.letter)
             CommonMultiItem.ITEM_ONE -> when (helper.layoutPosition % 2) {
                 0 -> helper.setText(R.id.tv_letter, "${item.content?.letter}")
-                1 -> helper.setText(R.id.tv_letter, "${item.content?.letter}")
+                1 -> helper.setText(R.id.tv_letter, "${item.content?.fragmentObject?.showName}")
             }
         }
         binding.root.setOnClickListener {
-            item.content?.fragmentName?.toast()
-            item.content?.let {
-                MainActivity.startFragment(binding.root.context, it.fragmentName)
+            item.content?.fragmentObject?.fragmentName?.toast()
+            item.content?.fragmentObject?.let {
+                MainActivity.startFragment(binding.root.context, it.fragmentName, it.showName)
             }
         }
     }

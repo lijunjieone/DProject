@@ -39,13 +39,27 @@ class SimpleAnnotationProcessor : AbstractProcessor() {
         val generatedKtFile = kotlinFile("com.a.dproject") {
 
             var body = """
-                
-val map = HashMap<String,String>()
+
+val map = HashMap<String,FragmentObject>()
             """.trimIndent()
+            classDeclaration("FragmentObject", DATA) {
+                primaryConstructor {
+                    param<String>("showName", VAL)
+                    param<String>("parentName", VAL)
+                    param<String>("fragmentName", VAL)
+                }
+            }
+
+            val parentNameList = ArrayList<String>()
+
             for (element in annotatedElements) {
                 val annotation: ListFragmentAnnotation =
-                    element.getAnnotation(ListFragmentAnnotation::class.java)
+                        element.getAnnotation(ListFragmentAnnotation::class.java)
                 val showName = annotation.showName
+                val parentName = annotation.parentName
+                if (!parentNameList.contains(parentName) && parentName.isNotEmpty()) {
+                    parentNameList.add(parentName)
+                }
 
                 val typeElement = element.toTypeElementOrNull() ?: continue
 
@@ -53,19 +67,27 @@ val map = HashMap<String,String>()
                     receiverType(typeElement.qualifiedName.toString())
                     getterExpression("this::class.java.simpleName")
                 }
+
                 body = """
                     ${body}
-map.put("$showName","${typeElement.qualifiedName.toString()}")
+map.put("$showName", FragmentObject("$showName","$parentName","${typeElement.qualifiedName.toString()}"))
                 """.trimIndent()
 
+            }
+
+            for (element in parentNameList) {
+                body = """
+                    ${body}
+map.put("$element", FragmentObject("$element","","com.a.dproject.mvvm.fragment.ListFragment"))
+                """.trimIndent()
             }
 
 
             function("getAnnotationMap") {
 //                param<Array<String>>("args")
-                returnType("HashMap<String,String>")
+                returnType("HashMap<String,FragmentObject>")
                 body(
-                    """
+                        """
 ${body}
 return map
             """.trimIndent()

@@ -57,6 +57,7 @@ class ListFragment : ArtBaseFragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        viewModel.initVM(activity?.intent)
         //可以在这里完成外部数据跟viewmodel的通讯
         id = arguments?.getLong(PARAM_DEFAULT_ID) ?: 0L
         viewModel.id = id

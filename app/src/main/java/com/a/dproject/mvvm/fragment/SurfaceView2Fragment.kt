@@ -15,7 +15,7 @@ import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 
 
-@ListFragmentAnnotation("SurfaceView学习2")
+@ListFragmentAnnotation("arCore学习", parentName = "ArCore")
 class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentSurfaceView2Binding
