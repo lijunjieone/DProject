@@ -14,9 +14,6 @@
         android:name="android.hardware.camera.ar"
         android:required="true" />
 
-    <meta-data
-        android:name="com.google.ar.core"
-        android:value="required" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +24,10 @@
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.DProject">
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
+
         <activity android:name="com.a.dproject.mvvm.activity.SimpleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

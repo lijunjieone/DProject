@@ -74,7 +74,7 @@ class ArCore1Fragment : ArtBaseFragment(), View.OnClickListener {
                     ModelRenderer.addPokemonOnScene(arFragment, this, renderable, pokemon)
                 }
 
-                ViewRenderable.builder().setView(requireContext(), R.layout.activity_simple).build().thenAccept {
+                ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build().thenAccept {
                     ModelRenderer.addGardenOnScene(arFragment, this, it, garden)
                 }
 
