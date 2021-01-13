@@ -16,15 +16,21 @@ import com.a.dproject.mvvm.viewmodel.ArFaceViewModel
 import com.a.dproject.showFragment
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
+import com.google.ar.core.AugmentedFace
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
+import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.rendering.Renderable
+import com.google.ar.sceneform.rendering.Texture
 import com.google.ar.sceneform.rendering.ViewRenderable
-import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.AugmentedFaceNode
 import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
+import java.util.*
 import java.util.function.Consumer
 
 
@@ -34,9 +40,12 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
     protected lateinit var binding: FragmentArFaceBinding
     lateinit var viewModel: ArFaceViewModel
 
-    private var andyRenderable: ModelRenderable? = null
-    private var arFragment: ArFragment? = null
+    private var faceRegionsRenderable: ModelRenderable? = null
+    private var faceMeshTexture: Texture? = null
+
+    private var arFragment: FaceArFragment? = null
     private var viewRenderable: ViewRenderable? = null
+    private val faceNodeMap = HashMap<AugmentedFace, AugmentedFaceNode>()
 
 
     var id: Long = 0L
@@ -94,7 +103,11 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse("fox_face.sfb"))
             .build()
-            .thenAccept(Consumer { renderable: ModelRenderable -> andyRenderable = renderable })
+            .thenAccept(Consumer { renderable: ModelRenderable ->
+                faceRegionsRenderable = renderable
+                renderable.setShadowCaster(false)
+                renderable.setShadowReceiver(false)
+            })
 
     }
 
@@ -104,7 +117,7 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        arFragment = ArFragment()
+        arFragment = FaceArFragment()
 
         R.id.arFragment.showFragment(arFragment!!, childFragmentManager)
         ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build()
@@ -122,8 +135,63 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
                 anchorNode.setParent(arFragment?.getArSceneView()?.getScene())
                 val andy = getNode()
                 andy.setParent(anchorNode)
-                andy.renderable = andyRenderable
+                andy.renderable = faceRegionsRenderable
             })
+
+
+        // Load the face mesh texture.
+        Texture.builder()
+            .setSource(requireContext(), R.drawable.fox_face_mesh_texture)
+            .build()
+            .thenAccept(Consumer { texture: Texture ->
+                faceMeshTexture = texture
+            })
+
+        val sceneView = arFragment!!.arSceneView
+
+        // This is important to make sure that the camera stream renders first so that
+        // the face mesh occlusion works correctly.
+
+        // This is important to make sure that the camera stream renders first so that
+        // the face mesh occlusion works correctly.
+        sceneView.cameraStreamRenderPriority = Renderable.RENDER_PRIORITY_FIRST
+
+        val scene = sceneView.scene
+
+        scene.addOnUpdateListener { frameTime: FrameTime? ->
+            if (faceRegionsRenderable == null || faceMeshTexture == null) {
+                return@addOnUpdateListener
+            }
+            val faceList =
+                sceneView.session!!.getAllTrackables(
+                    AugmentedFace::class.java
+                )
+
+            // Make new AugmentedFaceNodes for any new faces.
+            for (face in faceList) {
+                if (!faceNodeMap.containsKey(face)) {
+                    val faceNode = AugmentedFaceNode(face)
+                    faceNode.setParent(scene)
+                    faceNode.faceRegionsRenderable = faceRegionsRenderable
+                    faceNode.faceMeshTexture = faceMeshTexture
+                    faceNodeMap.put(face, faceNode)
+                }
+            }
+
+            // Remove any AugmentedFaceNodes associated with an AugmentedFace that stopped tracking.
+            val iter: MutableIterator<Map.Entry<AugmentedFace, AugmentedFaceNode>> =
+                faceNodeMap.entries.iterator()
+            while (iter.hasNext()) {
+                val entry =
+                    iter.next()
+                val face = entry.key
+                if (face.trackingState == TrackingState.STOPPED) {
+                    val faceNode = entry.value
+                    faceNode.setParent(null)
+                    iter.remove()
+                }
+            }
+        }
     }
 
 
