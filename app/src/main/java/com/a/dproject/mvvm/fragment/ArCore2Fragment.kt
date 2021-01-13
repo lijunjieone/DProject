@@ -26,7 +26,7 @@ import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.Scene.OnUpdateListener
 
 
-@ListFragmentAnnotation("arCore学习", parentName = "ArCore")
+@ListFragmentAnnotation("arCore学习ArSceneView", parentName = "ArCore")
 class ArCore2Fragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentSurfaceView2Binding
