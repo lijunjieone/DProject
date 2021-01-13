@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.ar.utils.Planet
 import com.a.dproject.ar.utils.RotatingNode
 import com.a.dproject.ar.utils.SolarSettings
 import com.a.dproject.databinding.FragmentHelloArBinding
@@ -20,6 +21,7 @@ import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
@@ -35,11 +37,13 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
     protected lateinit var binding: FragmentHelloArBinding
     lateinit var viewModel: HelloArViewModel
     private var andyRenderable: ModelRenderable? = null
+    private var earthRenderable: ModelRenderable? = null
+    private var lunaRenderable: ModelRenderable? = null
     private var arFragment: ArFragment? = null
     private var viewRenderable: ViewRenderable? = null
     private var isView: Boolean = false
-
     private var isAnim: Boolean = false
+    private var isRotate: Boolean = false
     var id: Long = 0L
 
 
@@ -101,13 +105,28 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
                             toast.show()
                             null
                         })
-//        ViewRenderable.builder()
-//                .setView(requireContext(),R.layout.activity_main2)
-//                .build()
-//                .thenAccept {
-//                    viewRenderable = it
-//                }
-
+        ModelRenderable.builder()
+                .setSource(requireContext(), Uri.parse("Earth.sfb"))
+                .build()
+                .thenAccept(Consumer { renderable: ModelRenderable -> earthRenderable = renderable })
+                .exceptionally(
+                        Function<Throwable, Void?> { throwable: Throwable? ->
+                            val toast: Toast = Toast.makeText(requireContext(), "Unable to load andy renderable", Toast.LENGTH_LONG)
+                            toast.setGravity(Gravity.CENTER, 0, 0)
+                            toast.show()
+                            null
+                        })
+        ModelRenderable.builder()
+                .setSource(requireContext(), Uri.parse("Luna.sfb"))
+                .build()
+                .thenAccept(Consumer { renderable: ModelRenderable -> lunaRenderable = renderable })
+                .exceptionally(
+                        Function<Throwable, Void?> { throwable: Throwable? ->
+                            val toast: Toast = Toast.makeText(requireContext(), "Unable to load andy renderable", Toast.LENGTH_LONG)
+                            toast.setGravity(Gravity.CENTER, 0, 0)
+                            toast.show()
+                            null
+                        })
 
     }
 
@@ -154,11 +173,39 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
             val andy = RotatingNode(solarSettings, true, false, 0.3f)
             andy.setDegreesPerSecond(orbitDegreesPerSecond)
             return andy
+        } else if (isRotate) {
+            val andy = TransformableNode(arFragment?.getTransformationSystem())
+            val earth = createPlanet("Earth", andy, 1.0f, 29f, earthRenderable!!, 0.05f, 23.4f)
+            createPlanet("Moon", earth!!, 0.15f, 100f, lunaRenderable!!, 0.018f, 6.68f)
+            return andy
         } else {
             val andy = TransformableNode(arFragment?.getTransformationSystem())
             return andy
-//                    val andy = Node()
         }
+    }
+
+
+    private fun createPlanet(
+            name: String,
+            parent: Node,
+            auFromParent: Float,
+            orbitDegreesPerSecond: Float,
+            renderable: ModelRenderable,
+            planetScale: Float,
+            axisTilt: Float): Node? {
+        // Orbit is a rotating node with no renderable positioned at the sun.
+        // The planet is positioned relative to the orbit so that it appears to rotate around the sun.
+        // This is done instead of making the sun rotate so each planet can orbit at its own speed.
+        val orbit = RotatingNode(solarSettings, true, false, 0.0f)
+        orbit.setDegreesPerSecond(orbitDegreesPerSecond)
+        orbit.setParent(parent)
+
+        // Create the planet and position it relative to the sun.
+        val planet = Planet(
+                requireContext(), name, planetScale, orbitDegreesPerSecond, axisTilt, renderable, solarSettings)
+        planet.setParent(orbit)
+        planet.setLocalPosition(Vector3(auFromParent * AU_TO_METERS, 0.0f, 0.0f))
+        return planet
     }
 
     override fun onClick(p0: View?) {
@@ -166,6 +213,7 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
             when (it) {
                 binding.tvIsView -> {
                     isView = !isView
+
                     val t = if (isView) "2D" else "3D"
                     "模式为${t}".toast()
                 }
@@ -173,6 +221,12 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
                     isAnim = !isAnim
                     val t1 = if (isAnim) "旋转" else "不旋转"
                     "模型${t1}".toast()
+                }
+                binding.tvViewRotate -> {
+                    isRotate = !isRotate
+                    isAnim = false
+                    val t1 = if (isRotate) "增加公转模型" else "去掉公转模型"
+                    t1.toast()
                 }
                 else -> {
 
@@ -185,6 +239,7 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
     companion object {
 
         const val PARAM_DEFAULT_ID = "param_default_id"
+        private const val AU_TO_METERS = 0.5f
 
         fun newInstance(id: Long = 0L): Fragment = HelloArFragment().apply {
             //在这里完成Fragment和外部数据的通讯

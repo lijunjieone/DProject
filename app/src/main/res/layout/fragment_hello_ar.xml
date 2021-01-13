@@ -37,8 +37,20 @@
             android:layout_height="wrap_content"
             android:onClick="@{onClickListener}"
             android:text="2d/3d模型切换"
+            android:layout_marginLeft="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arFragment" />
+
+        <TextView
+            android:id="@+id/tv_view_rotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:onClick="@{onClickListener}"
+            android:text="添加公转模型"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/tv_is_view"
             app:layout_constraintTop_toBottomOf="@id/arFragment" />
 
         <TextView
