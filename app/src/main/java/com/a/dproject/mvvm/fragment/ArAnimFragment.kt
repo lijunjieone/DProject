@@ -16,7 +16,7 @@ import com.a.processor.ListFragmentAnnotation
 
 
 @ListFragmentAnnotation("arCore学习可以运动的Ar", parentName = "ArCore")
-class TranslateArFragment : ArtBaseFragment(), View.OnClickListener {
+class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentTranslateArBinding
     lateinit var viewModel: TranslateArViewModel
@@ -99,7 +99,7 @@ class TranslateArFragment : ArtBaseFragment(), View.OnClickListener {
 
         const val PARAM_DEFAULT_ID = "param_default_id"
 
-        fun newInstance(id: Long = 0L): Fragment = TranslateArFragment().apply {
+        fun newInstance(id: Long = 0L): Fragment = ArAnimFragment().apply {
             //在这里完成Fragment和外部数据的通讯
             val args = Bundle()
             args.putLong(PARAM_DEFAULT_ID, id)

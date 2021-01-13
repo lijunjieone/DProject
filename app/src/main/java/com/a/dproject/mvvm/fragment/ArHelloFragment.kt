@@ -32,7 +32,7 @@ import java.util.function.Function
 
 
 @ListFragmentAnnotation("arCore学习Hello Ar", parentName = "ArCore")
-class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
+class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentHelloArBinding
     lateinit var viewModel: HelloArViewModel
@@ -241,7 +241,7 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
         const val PARAM_DEFAULT_ID = "param_default_id"
         private const val AU_TO_METERS = 0.5f
 
-        fun newInstance(id: Long = 0L): Fragment = HelloArFragment().apply {
+        fun newInstance(id: Long = 0L): Fragment = ArHelloFragment().apply {
             //在这里完成Fragment和外部数据的通讯
             val args = Bundle()
             args.putLong(PARAM_DEFAULT_ID, id)
