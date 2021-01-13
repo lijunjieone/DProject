@@ -21,16 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:onClick="@{onClickListener}"
-            android:text="按钮1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.ar.sceneform.ArSceneView
+            android:id="@+id/ar_scene_view"
+            android:layout_width="fill_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="top"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
             android:id="@+id/tv_event"
@@ -41,6 +38,6 @@
             android:text="按钮2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/message" />
+            app:layout_constraintTop_toBottomOf="@id/ar_scene_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
