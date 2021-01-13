@@ -27,7 +27,7 @@ import com.google.ar.sceneform.Scene.OnUpdateListener
 
 
 @ListFragmentAnnotation("arCore学习", parentName = "ArCore")
-class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
+class ArCore2Fragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentSurfaceView2Binding
     lateinit var viewModel: SurfaceView2ViewModel
@@ -46,9 +46,9 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, getContentId(), container, false)
@@ -78,6 +78,20 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
     private fun initObserver() {
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (arSceneView != null) {
+            arSceneView.pause()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (arSceneView != null) {
+            arSceneView.destroy()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (arSceneView == null) {
@@ -91,8 +105,8 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
                 val lightEstimationMode = LightEstimationMode.ENVIRONMENTAL_HDR
                 val session: Session =
                     DemoUtils.createArSessionWithInstallRequest(
-                        requireActivity(),
-                        lightEstimationMode
+                            requireActivity(),
+                            lightEstimationMode
                     )
                 arSceneView.setupSession(session)
             } catch (e: UnavailableException) {
@@ -123,15 +137,15 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
         binding.arSceneView
             .getScene()
             .setOnTouchListener(
-                Scene.OnTouchListener { hitTestResult: HitTestResult?, event: MotionEvent? ->
-                    // If the solar system hasn't been placed yet, detect a tap and then check to see if
-                    // the tap occurred on an ARCore plane to place the solar system.
+                    Scene.OnTouchListener { hitTestResult: HitTestResult?, event: MotionEvent? ->
+                        // If the solar system hasn't been placed yet, detect a tap and then check to see if
+                        // the tap occurred on an ARCore plane to place the solar system.
 //                    if (!hasPlacedSolarSystem) {
 //                        return@setOnTouchListener gestureDetector.onTouchEvent(event)
 //                    }
-                    event.toString().toast()
-                    false
-                })
+                        event.toString().toast()
+                        false
+                    })
 
         // Set an update listener on the Scene that will hide the loading message once a Plane is
         // detected.
@@ -141,8 +155,8 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
         binding.arSceneView
             .getScene()
             .addOnUpdateListener(
-                OnUpdateListener { frameTime: FrameTime? ->
-                    frameTime.toString().toast()
+                    OnUpdateListener { frameTime: FrameTime? ->
+                        frameTime.toString().toast()
 //                    if (loadingMessageSnackbar == null) {
 //                        return@addOnUpdateListener
 //                    }
@@ -157,7 +171,7 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
 //                            hideLoadingMessage()
 //                        }
 //                    }
-                })
+                    })
 
 
     }
@@ -181,7 +195,7 @@ class SurfaceView2Fragment : ArtBaseFragment(), View.OnClickListener {
 
         const val PARAM_DEFAULT_ID = "param_default_id"
 
-        fun newInstance(id: Long = 0L): Fragment = SurfaceView2Fragment().apply {
+        fun newInstance(id: Long = 0L): Fragment = ArCore2Fragment().apply {
             //在这里完成Fragment和外部数据的通讯
             val args = Bundle()
             args.putLong(PARAM_DEFAULT_ID, id)
