@@ -1,8 +1,11 @@
 package com.a.dproject.mvvm.fragment
 
 
+import android.content.ContentValues
+import android.media.CamcorderProfile
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.ar.utils.VideoRecorder
 import com.a.dproject.databinding.FragmentArFaceBinding
 import com.a.dproject.mvvm.viewmodel.ArFaceViewModel
 import com.a.dproject.showFragment
@@ -46,6 +50,7 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
     private var arFragment: FaceArFragment? = null
     private var viewRenderable: ViewRenderable? = null
     private val faceNodeMap = HashMap<AugmentedFace, AugmentedFaceNode>()
+    private var videoRecorder: VideoRecorder? = null
 
 
     var id: Long = 0L
@@ -100,6 +105,9 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
         binding.onClickListener = this
 
 
+        // Initialize the VideoRecorder.
+
+
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse("fox_face.sfb"))
             .build()
@@ -118,8 +126,12 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
     override fun onResume() {
         super.onResume()
         arFragment = FaceArFragment()
-
         R.id.arFragment.showFragment(arFragment!!, childFragmentManager)
+        videoRecorder = VideoRecorder()
+        val orientation = resources.configuration.orientation
+        videoRecorder!!.setVideoQuality(CamcorderProfile.QUALITY_2160P, orientation)
+        videoRecorder!!.setSceneView(arFragment!!.arSceneView)
+
         ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build()
             .thenAccept {
                 viewRenderable = it
@@ -201,11 +213,32 @@ class ArFaceFragment : ArtBaseFragment(), View.OnClickListener {
     }
 
 
+    private fun toggleRecording() {
+
+        val recording = videoRecorder!!.onToggleRecord()
+        if (recording) {
+            binding.tvIsView.setImageResource(R.drawable.round_stop)
+        } else {
+            binding.tvIsView.setImageResource(R.drawable.round_videocam)
+            val videoPath = videoRecorder!!.videoPath.absolutePath
+            "Video saved: $videoPath".toString().toast()
+
+            // Send  notification of updated content.
+            val values = ContentValues()
+            values.put(MediaStore.Video.Media.TITLE, "Sceneform Video")
+            values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4")
+            values.put(MediaStore.Video.Media.DATA, videoPath)
+            requireActivity().getContentResolver()
+                .insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
+        }
+    }
+
     override fun onClick(p0: View?) {
         p0?.let {
             when (it) {
                 binding.tvIsView -> {
-                    "message".toast()
+//                    "message".toast()
+                    toggleRecording()
                 }
                 else -> {
 

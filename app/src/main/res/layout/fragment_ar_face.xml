@@ -32,13 +32,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="FragmentTagUsage" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_is_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:onClick="@{onClickListener}"
-            android:text="模型动画"
+            android:src="@drawable/round_videocam"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/arFragment" />
