@@ -128,6 +128,7 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
 
                     // Create the transformable andy and add it to the anchor.
                     val andy = TransformableNode(arFragment?.getTransformationSystem())
+//                    val andy = Node()
                     andy.setParent(anchorNode)
                     if (isView) {
                         andy.renderable = viewRenderable
