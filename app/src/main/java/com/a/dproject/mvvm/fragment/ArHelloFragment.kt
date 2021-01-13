@@ -168,7 +168,7 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                 })
     }
 
-    fun getNode(): Node {
+    private fun getNode(): Node {
         if (isAnim) {
             val andy = RotatingNode(solarSettings, true, false, 0.3f)
             andy.setDegreesPerSecond(orbitDegreesPerSecond)

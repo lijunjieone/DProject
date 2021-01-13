@@ -1,8 +1,10 @@
 package com.a.dproject.mvvm.fragment
 
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -11,8 +13,21 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentTranslateArBinding
 import com.a.dproject.mvvm.viewmodel.TranslateArViewModel
+import com.a.dproject.showFragment
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
+import com.google.ar.core.HitResult
+import com.google.ar.core.Plane
+import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.animation.ModelAnimator
+import com.google.ar.sceneform.rendering.AnimationData
+import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.rendering.ViewRenderable
+import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.BaseArFragment
+import com.google.ar.sceneform.ux.TransformableNode
+import java.util.function.Consumer
 
 
 @ListFragmentAnnotation("arCore学习可以运动的Ar", parentName = "ArCore")
@@ -20,12 +35,17 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentTranslateArBinding
     lateinit var viewModel: TranslateArViewModel
+    private var andyRenderable: ModelRenderable? = null
+    private var arFragment: ArFragment? = null
+    private var viewRenderable: ViewRenderable? = null
+    private var animator: ModelAnimator? = null
+    private var nextAnimation = 0
 
     var id: Long = 0L
 
 
     override fun getContentId(): Int {
-        return R.layout.fragment_hello_ar
+        return R.layout.fragment_translate_ar
     }
 
     override fun getStoneId(): Int {
@@ -72,20 +92,51 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
         binding.lifecycleOwner = this
         binding.onClickListener = this
 
+        ModelRenderable.builder()
+            .setSource(requireContext(), Uri.parse("andy_dance.sfb"))
+            .build()
+            .thenAccept(Consumer { renderable: ModelRenderable -> andyRenderable = renderable })
+
     }
 
     private fun initData() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        arFragment = ArFragment()
+
+        R.id.arFragment.showFragment(arFragment!!, childFragmentManager)
+        ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build()
+            .thenAccept {
+                viewRenderable = it
+            }
+
+
+        arFragment?.setOnTapArPlaneListener(
+            BaseArFragment.OnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
+
+                // Create the Anchor.
+                val anchor = hitResult.createAnchor()
+                val anchorNode = AnchorNode(anchor)
+                anchorNode.setParent(arFragment?.getArSceneView()?.getScene())
+                val andy = getNode()
+                andy.setParent(anchorNode)
+                andy.renderable = andyRenderable
+            })
+    }
+
+    private fun getNode(): Node {
+        val andy = TransformableNode(arFragment?.getTransformationSystem())
+        return andy
     }
 
 
     override fun onClick(p0: View?) {
         p0?.let {
             when (it) {
-                binding.message -> {
-                    "message".toast()
-                }
-                binding.tvEvent -> {
-                    "event".toast()
+                binding.tvIsView -> {
+                    onPlayAnimation()
                 }
                 else -> {
 
@@ -94,6 +145,15 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
         }
     }
 
+    private fun onPlayAnimation() {
+        if (animator == null || !animator!!.isRunning()) {
+            val data: AnimationData? = andyRenderable!!.getAnimationData(nextAnimation)
+            nextAnimation = (nextAnimation + 1) % andyRenderable!!.animationDataCount
+            animator = ModelAnimator(data, andyRenderable)
+            animator!!.start()
+            data?.name?.toast()
+        }
+    }
 
     companion object {
 
