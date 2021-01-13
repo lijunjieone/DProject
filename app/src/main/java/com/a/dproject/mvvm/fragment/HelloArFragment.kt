@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.ar.utils.RotatingNode
+import com.a.dproject.ar.utils.SolarSettings
 import com.a.dproject.databinding.FragmentHelloArBinding
 import com.a.dproject.mvvm.viewmodel.HelloArViewModel
 import com.a.dproject.showFragment
@@ -17,6 +19,7 @@ import com.a.processor.ListFragmentAnnotation
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
@@ -36,6 +39,7 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
     private var viewRenderable: ViewRenderable? = null
     private var isView: Boolean = false
 
+    private var isAnim: Boolean = false
     var id: Long = 0L
 
 
@@ -110,6 +114,8 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
     private fun initData() {
     }
 
+    val solarSettings = SolarSettings()
+    val orbitDegreesPerSecond = 48f
     override fun onResume() {
         super.onResume()
         arFragment = ArFragment()
@@ -118,6 +124,8 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
         ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build().thenAccept {
             viewRenderable = it
         }
+
+
         arFragment?.setOnTapArPlaneListener(
                 OnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
 
@@ -127,25 +135,44 @@ class HelloArFragment : ArtBaseFragment(), View.OnClickListener {
                     anchorNode.setParent(arFragment?.getArSceneView()?.getScene())
 
                     // Create the transformable andy and add it to the anchor.
-                    val andy = TransformableNode(arFragment?.getTransformationSystem())
-//                    val andy = Node()
+
+
+                    val andy = getNode()
+//                    orbit.setParent(parent)
                     andy.setParent(anchorNode)
                     if (isView) {
                         andy.renderable = viewRenderable
                     } else {
                         andy.renderable = andyRenderable
                     }
-                    andy.select()
+//                    andy.select()
                 })
     }
 
+    fun getNode(): Node {
+        if (isAnim) {
+            val andy = RotatingNode(solarSettings, true, false, 0.3f)
+            andy.setDegreesPerSecond(orbitDegreesPerSecond)
+            return andy
+        } else {
+            val andy = TransformableNode(arFragment?.getTransformationSystem())
+            return andy
+//                    val andy = Node()
+        }
+    }
 
     override fun onClick(p0: View?) {
         p0?.let {
             when (it) {
-                binding.tvEvent -> {
+                binding.tvIsView -> {
                     isView = !isView
-                    isView.toString().toast()
+                    val t = if (isView) "2D" else "3D"
+                    "模式为${t}".toast()
+                }
+                binding.tvViewAnim -> {
+                    isAnim = !isAnim
+                    val t1 = if (isAnim) "旋转" else "不旋转"
+                    "模型${t1}".toast()
                 }
                 else -> {
 

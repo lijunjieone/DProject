@@ -18,9 +18,20 @@
         tools:ignore="FragmentTagUsage" />
 
     <TextView
+        android:id="@+id/tv_is_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="2d/3d模型切换"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/arFragment" />
+
+    <TextView
+        android:id="@+id/tv_view_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加自动节点"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
