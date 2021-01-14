@@ -23,8 +23,7 @@ import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.assets.RenderableSource
 import com.google.ar.sceneform.math.Vector3
-import com.google.ar.sceneform.rendering.ModelRenderable
-import com.google.ar.sceneform.rendering.ViewRenderable
+import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment.OnTapArPlaneListener
 import com.google.ar.sceneform.ux.TransformableNode
@@ -39,6 +38,7 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
     protected lateinit var binding: FragmentHelloArBinding
     lateinit var viewModel: HelloArViewModel
     private var andyRenderable: ModelRenderable? = null
+    private var normalRenderable: ModelRenderable? = null
     private var duckRenderable: ModelRenderable? = null
     private var earthRenderable: ModelRenderable? = null
     private var lunaRenderable: ModelRenderable? = null
@@ -48,6 +48,11 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
     private var isAnim: Boolean = false
     private var isRotate: Boolean = false
     private var isDuck: Boolean = false
+    private var modeType: Int = 2
+    val TYPE_NORMAL = 1
+    val TYPE_3D = 2
+    val TYPE_2D = 3
+    val TYPE_DUCK = 4
     var id: Long = 0L
 
 
@@ -149,6 +154,9 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                 .build()
                 .thenAccept(Consumer { renderable: ModelRenderable -> duckRenderable = renderable })
 
+        MaterialFactory.makeOpaqueWithColor(requireContext(), Color(android.graphics.Color.RED))
+                .thenAccept { material: Material? -> normalRenderable = ShapeFactory.makeSphere(0.1f, Vector3(0.0f, 0.15f, 0.0f), material) }
+
     }
 
     val solarSettings = SolarSettings()
@@ -177,10 +185,12 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                     val andy = getNode()
 //                    orbit.setParent(parent)
                     andy.setParent(anchorNode)
-                    if (isDuck) {
+                    if (modeType == TYPE_DUCK) {
                         andy.renderable = duckRenderable
-                    } else if (isView) {
+                    } else if (modeType == TYPE_2D) {
                         andy.renderable = viewRenderable
+                    } else if (modeType == TYPE_NORMAL) {
+                        andy.renderable = normalRenderable
                     } else {
                         andy.renderable = andyRenderable
                     }
@@ -233,8 +243,11 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
             when (it) {
                 binding.tvIsView -> {
                     isView = !isView
-                    isDuck = false
-
+                    if (isView) {
+                        modeType = TYPE_2D
+                    } else {
+                        modeType = TYPE_3D
+                    }
                     val t = if (isView) "2D" else "3D"
                     "模式为${t}".toast()
                 }
@@ -249,8 +262,14 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                     val t1 = if (isRotate) "增加公转模型" else "去掉公转模型"
                     t1.toast()
                 }
+                binding.tvViewNormal -> {
+                    modeType = TYPE_NORMAL
+                    val t1 = "使用的普通形状"
+                    t1.toast()
+                }
                 binding.tvViewDuck -> {
                     isDuck = !isDuck
+                    modeType = TYPE_DUCK
                     val t1 = if (isDuck) "使用网络下载的小黄鸭模型" else "使用本地模型"
                     t1.toast()
                 }
