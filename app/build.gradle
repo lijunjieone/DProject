@@ -60,6 +60,7 @@ dependencies {
     api "com.google.ar.sceneform.ux:sceneform-ux:$rootProject.ext.sceneFormVersion"
     api "com.google.ar.sceneform:core:$rootProject.ext.sceneFormVersion"
     implementation "com.google.ar.sceneform:animation:$rootProject.ext.sceneFormVersion"
+    implementation "com.google.ar.sceneform:assets:$rootProject.ext.sceneFormVersion"
 
 
 //    implementation "frankiesardo:auto-parcel:$autoparcel_version"

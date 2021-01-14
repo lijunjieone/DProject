@@ -21,12 +21,14 @@ import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.Node
+import com.google.ar.sceneform.assets.RenderableSource
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment.OnTapArPlaneListener
 import com.google.ar.sceneform.ux.TransformableNode
+
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -37,6 +39,7 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
     protected lateinit var binding: FragmentHelloArBinding
     lateinit var viewModel: HelloArViewModel
     private var andyRenderable: ModelRenderable? = null
+    private var duckRenderable: ModelRenderable? = null
     private var earthRenderable: ModelRenderable? = null
     private var lunaRenderable: ModelRenderable? = null
     private var arFragment: ArFragment? = null
@@ -44,6 +47,7 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
     private var isView: Boolean = false
     private var isAnim: Boolean = false
     private var isRotate: Boolean = false
+    private var isDuck: Boolean = false
     var id: Long = 0L
 
 
@@ -131,6 +135,20 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
     }
 
     private fun initData() {
+        val GLTF_ASSET = "https://github.com/KhronosGroup/glTF-Sample-Models/raw/master/2.0/Duck/glTF/Duck.gltf"
+
+        ModelRenderable.builder()
+                .setSource(requireContext(), RenderableSource.builder().setSource(
+                        requireContext(),
+                        Uri.parse(GLTF_ASSET),
+                        RenderableSource.SourceType.GLTF2)
+                        .setScale(0.5f) // Scale the original model to 50%.
+                        .setRecenterMode(RenderableSource.RecenterMode.ROOT)
+                        .build())
+                .setRegistryId(GLTF_ASSET)
+                .build()
+                .thenAccept(Consumer { renderable: ModelRenderable -> duckRenderable = renderable })
+
     }
 
     val solarSettings = SolarSettings()
@@ -159,7 +177,9 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                     val andy = getNode()
 //                    orbit.setParent(parent)
                     andy.setParent(anchorNode)
-                    if (isView) {
+                    if (isDuck) {
+                        andy.renderable = duckRenderable
+                    } else if (isView) {
                         andy.renderable = viewRenderable
                     } else {
                         andy.renderable = andyRenderable
@@ -213,6 +233,7 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
             when (it) {
                 binding.tvIsView -> {
                     isView = !isView
+                    isDuck = false
 
                     val t = if (isView) "2D" else "3D"
                     "模式为${t}".toast()
@@ -226,6 +247,11 @@ class ArHelloFragment : ArtBaseFragment(), View.OnClickListener {
                     isRotate = !isRotate
                     isAnim = false
                     val t1 = if (isRotate) "增加公转模型" else "去掉公转模型"
+                    t1.toast()
+                }
+                binding.tvViewDuck -> {
+                    isDuck = !isDuck
+                    val t1 = if (isDuck) "使用网络下载的小黄鸭模型" else "使用本地模型"
                     t1.toast()
                 }
                 else -> {
