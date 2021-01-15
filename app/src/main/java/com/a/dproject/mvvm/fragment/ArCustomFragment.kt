@@ -31,7 +31,8 @@ class ArCustomFragment : ArtBaseFragment() , View.OnClickListener{
 
     var id:Long = 0L
     private lateinit var arFragment: ArFragment
-    private lateinit var viewRenderable: ModelRenderable
+    private lateinit var andyRenderable: ModelRenderable
+    private lateinit var viewRenderable: ViewRenderable
 
     override fun getContentId(): Int {
         return R.layout.fragment_custom_ar
@@ -75,21 +76,27 @@ class ArCustomFragment : ArtBaseFragment() , View.OnClickListener{
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         binding.onClickListener = this
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         arFragment = CustomArCoreFragment()
         R.id.arFragment.showFragment(arFragment, childFragmentManager)
 
-//        ViewRenderable.builder().setView(requireContext(), R.layout.activity_main2).build()
-//                .thenAccept {
-//                    viewRenderable = it
-//                }
+
 
         ModelRenderable.builder()
                 .setSource(requireContext(), Uri.parse("fox_face.sfb"))
                 .build()
                 .thenAccept(Consumer { renderable: ModelRenderable ->
-                    viewRenderable = renderable
+                    andyRenderable = renderable
                 })
 
+        ViewRenderable.builder().setView(requireContext(), R.layout.activity_simple).build()
+                .thenAccept {
+                    viewRenderable = it
+                }
         arFragment.setOnTapArPlaneListener { hitResult, plane, motionEvent ->
             val anchor = hitResult.createAnchor()
             val anchorNode = AnchorNode(anchor)
@@ -98,8 +105,8 @@ class ArCustomFragment : ArtBaseFragment() , View.OnClickListener{
             andy.renderable = viewRenderable
             andy.setParent(anchorNode)
         }
-    }
 
+    }
     private fun initData() {
     }
 
