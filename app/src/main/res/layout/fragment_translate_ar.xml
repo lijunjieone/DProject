@@ -49,8 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:onClick="@{onClickListener}"
-            android:text="添加公转模型"
-            android:visibility="gone"
+            android:text="骨架动画"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/tv_is_view"
             app:layout_constraintTop_toBottomOf="@id/arFragment" />

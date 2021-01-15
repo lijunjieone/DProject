@@ -35,12 +35,15 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
 
     protected lateinit var binding: FragmentTranslateArBinding
     lateinit var viewModel: TranslateArViewModel
-    private var andyRenderable: ModelRenderable? = null
+    private lateinit var andyRenderable: ModelRenderable
+    private lateinit var skeletonRenderable: ModelRenderable
+    private lateinit var finalRenderable: ModelRenderable
     private var arFragment: ArFragment? = null
     private var viewRenderable: ViewRenderable? = null
     private var animator: ModelAnimator? = null
     private var nextAnimation = 0
 
+    private var modelType:Int = 0
     var id: Long = 0L
 
 
@@ -95,8 +98,15 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
         ModelRenderable.builder()
             .setSource(requireContext(), Uri.parse("andy_dance.sfb"))
             .build()
-            .thenAccept(Consumer { renderable: ModelRenderable -> andyRenderable = renderable })
+            .thenAccept(Consumer { renderable: ModelRenderable ->
+                andyRenderable = renderable
+                finalRenderable = andyRenderable
 
+            })
+        ModelRenderable.builder()
+                .setSource(requireContext(), Uri.parse("skeleton.sfb"))
+                .build()
+                .thenAccept(Consumer { renderable: ModelRenderable -> skeletonRenderable = renderable })
     }
 
     private fun initData() {
@@ -122,7 +132,7 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
                 anchorNode.setParent(arFragment?.getArSceneView()?.getScene())
                 val andy = getNode()
                 andy.setParent(anchorNode)
-                andy.renderable = andyRenderable
+                andy.renderable = finalRenderable
             })
     }
 
@@ -136,6 +146,11 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
         p0?.let {
             when (it) {
                 binding.tvIsView -> {
+                    finalRenderable = andyRenderable
+                    onPlayAnimation()
+                }
+                binding.tvViewRotate -> {
+                    finalRenderable = skeletonRenderable
                     onPlayAnimation()
                 }
                 else -> {
@@ -147,9 +162,9 @@ class ArAnimFragment : ArtBaseFragment(), View.OnClickListener {
 
     private fun onPlayAnimation() {
         if (animator == null || !animator!!.isRunning()) {
-            val data: AnimationData? = andyRenderable!!.getAnimationData(nextAnimation)
-            nextAnimation = (nextAnimation + 1) % andyRenderable!!.animationDataCount
-            animator = ModelAnimator(data, andyRenderable)
+            val data: AnimationData? = finalRenderable.getAnimationData(nextAnimation)
+            nextAnimation = (nextAnimation + 1) % finalRenderable.animationDataCount
+            animator = ModelAnimator(data,finalRenderable)
             animator!!.start()
             data?.name?.toast()
         }
