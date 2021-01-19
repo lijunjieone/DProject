@@ -94,7 +94,7 @@ public class Triangle
         //设置沿Z轴正向位移1
         Matrix.translateM(mMMatrix,0,0,0,1);
         //设置绕x轴旋转
-        Matrix.rotateM(mMMatrix,0,xAngle,1,0,0);
+        Matrix.rotateM(mMMatrix,0,xAngle,1,1,0);
         //将变换矩阵传入渲染管线
         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, Triangle.getFianlMatrix(mMMatrix), 0);
         //将顶点位置数据传送进渲染管线
