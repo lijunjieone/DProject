@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
+import com.a.dproject.opengl.MyTDView
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
 
@@ -38,7 +39,6 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, getContentId(), container, false)
         initViewModel()
-        initView()
         return binding.root
     }
 
@@ -46,6 +46,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
         initObserver()
         initData()
     }
@@ -69,6 +70,10 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         binding.lifecycleOwner = this
         binding.onClickListener = this
 
+        val mview= MyTDView(requireContext());//创建MyTDView类的对象
+        mview.requestFocus();//获取焦点
+        mview.setFocusableInTouchMode(true);//设置为可触控
+        binding.flContainer.addView(mview)
     }
 
     private fun initData() {
