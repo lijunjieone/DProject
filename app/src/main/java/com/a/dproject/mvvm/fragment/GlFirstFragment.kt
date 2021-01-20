@@ -77,7 +77,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         triangleView.setFocusableInTouchMode(true);//设置为可触控
         binding.flContainer.addView(triangleView)
 
-        sixStar = SixStarSurfaceView(requireContext())
+        sixStar = SixStarSurfaceView(requireContext(),false)
         sixStar.requestFocus()
         sixStar.isFocusableInTouchMode = true
 

@@ -14,9 +14,11 @@ public class SixStarSurfaceView extends GLSurfaceView
 	 
 	private float mPreviousY;//上次的触控位置Y坐标
     private float mPreviousX;//上次的触控位置X坐标
-	
-	public SixStarSurfaceView(Context context) {
+
+    private boolean isProjectOrtho = true;
+	public SixStarSurfaceView(Context context,boolean isProjectOrtho) {
         super(context);
+        this.isProjectOrtho = isProjectOrtho;
         this.setEGLContextClientVersion(3); //设置使用OPENGL ES3.0
         mRenderer = new SceneRenderer();	//创建场景渲染器
         setRenderer(mRenderer);				//设置渲染器		        
@@ -63,8 +65,16 @@ public class SixStarSurfaceView extends GLSurfaceView
         	GLES30.glViewport(0, 0, width, height); 
         	//计算视口的宽高比
         	float ratio= (float) width / height;
-            //设置正交投影
-        	MatrixState.setProjectOrtho(-ratio, ratio, -1, 1, 1, 10); 
+        	if(isProjectOrtho) {
+                //设置正交投影
+                MatrixState.setProjectOrtho(-ratio, ratio, -1, 1, 1, 10);
+            }else {
+                //设置透视投影
+                MatrixState.setProjectFrustum(-ratio*0.4f, ratio*0.4f, -1*0.4f, 1*0.4f, 1, 50);
+
+
+            }
+
         	
         	//设置摄像机
 			MatrixState.setCamera(
@@ -80,8 +90,13 @@ public class SixStarSurfaceView extends GLSurfaceView
             //创建六角星数组中的各个六角星 
             for(int i=0;i<ha.length;i++)
             {
-            	ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.8f,-0.3f*i);
-            }            
+                if(isProjectOrtho) {
+                    ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.8f,-0.3f*i);
+                }else {
+                    ha[i] = new SixPointedStar(SixStarSurfaceView.this, 0.2f, 0.6f,-1.0f * i);
+
+                }
+            }
             //打开深度检测
             GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         }
