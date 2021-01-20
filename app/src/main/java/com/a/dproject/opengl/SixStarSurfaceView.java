@@ -1,12 +1,13 @@
 package com.a.dproject.opengl;
+import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import android.content.Context;
 
-class MySurfaceView extends GLSurfaceView 
+public class SixStarSurfaceView extends GLSurfaceView
 {
 	private final float TOUCH_SCALE_FACTOR = 180.0f/320;//角度缩放比例
     private SceneRenderer mRenderer;//场景渲染器
@@ -14,7 +15,7 @@ class MySurfaceView extends GLSurfaceView
 	private float mPreviousY;//上次的触控位置Y坐标
     private float mPreviousX;//上次的触控位置X坐标
 	
-	public MySurfaceView(Context context) {
+	public SixStarSurfaceView(Context context) {
         super(context);
         this.setEGLContextClientVersion(3); //设置使用OPENGL ES3.0
         mRenderer = new SceneRenderer();	//创建场景渲染器
@@ -79,7 +80,7 @@ class MySurfaceView extends GLSurfaceView
             //创建六角星数组中的各个六角星 
             for(int i=0;i<ha.length;i++)
             {
-            	ha[i]=new SixPointedStar(MySurfaceView.this,0.2f,0.5f,-0.3f*i);   
+            	ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.5f,-0.3f*i);
             }            
             //打开深度检测
             GLES30.glEnable(GLES30.GL_DEPTH_TEST);

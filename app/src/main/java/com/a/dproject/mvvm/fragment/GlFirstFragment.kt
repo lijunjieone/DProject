@@ -13,7 +13,7 @@ import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
 import com.a.dproject.opengl.MyTDView
-import com.a.dproject.views.MySurfaceView
+import com.a.dproject.opengl.SixStarSurfaceView
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -23,7 +23,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     protected lateinit var binding: FragmentGlFirstBinding
     lateinit var viewModel: GlFirstViewModel
     lateinit var triangleView:MyTDView
-    lateinit var sixStar:MySurfaceView
+    lateinit var sixStar:SixStarSurfaceView
 
     var id:Long = 0L
 
@@ -77,7 +77,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         triangleView.setFocusableInTouchMode(true);//设置为可触控
         binding.flContainer.addView(triangleView)
 
-        sixStar = MySurfaceView(requireContext())
+        sixStar = SixStarSurfaceView(requireContext())
         sixStar.requestFocus()
         sixStar.isFocusableInTouchMode = true
 
@@ -91,12 +91,12 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     override fun onClick(p0: View?) {
         p0?.let {
             when (it) {
-                binding.message -> {
+                binding.tvTriangleView -> {
 //                    "message".toast()
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(triangleView)
                 }
-                binding.tvEvent -> {
+                binding.tvSixStar -> {
 //                    "event".toast()
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(sixStar)

@@ -29,7 +29,7 @@ public class SixPointedStar
     float xAngle=0;//绕x轴旋转的角度
     final float UNIT_SIZE=1;
     
-    public SixPointedStar(MySurfaceView mv,float r,float R,float z)
+    public SixPointedStar(SixStarSurfaceView mv, float r, float R, float z)
     {    	
     	//调用初始化顶点数据的initVertexData方法
     	initVertexData(R,r,z);
@@ -118,7 +118,7 @@ public class SixPointedStar
     }
 
   //初始化着色器的initShader方法
-    public void initShader(MySurfaceView mv)
+    public void initShader(SixStarSurfaceView mv)
     {
     	//加载顶点着色器的脚本内容
         mVertexShader=ShaderUtil.loadFromAssetsFile("vertex.sh", mv.getResources());
