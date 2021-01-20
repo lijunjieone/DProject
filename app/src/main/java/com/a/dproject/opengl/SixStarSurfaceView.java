@@ -91,7 +91,7 @@ public class SixStarSurfaceView extends GLSurfaceView
             for(int i=0;i<ha.length;i++)
             {
                 if(isProjectOrtho) {
-                    ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.8f,-0.3f*i);
+                    ha[i]= new SixPointedStar(SixStarSurfaceView.this,0.2f,0.8f,-0.3f*i);
                 }else {
                     ha[i] = new SixPointedStar(SixStarSurfaceView.this, 0.2f, 0.6f,-1.0f * i);
 

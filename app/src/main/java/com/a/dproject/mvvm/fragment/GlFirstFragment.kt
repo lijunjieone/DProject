@@ -24,6 +24,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var viewModel: GlFirstViewModel
     lateinit var triangleView:MyTDView
     lateinit var sixStar:SixStarSurfaceView
+    lateinit var sixStar2:SixStarSurfaceView
 
     var id:Long = 0L
 
@@ -77,10 +78,16 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         triangleView.setFocusableInTouchMode(true);//设置为可触控
         binding.flContainer.addView(triangleView)
 
-        sixStar = SixStarSurfaceView(requireContext(),false)
+        sixStar = createSixStar(false)
+        sixStar2 = createSixStar(true)
+
+    }
+
+    private fun createSixStar(isProjectOrtho:Boolean): SixStarSurfaceView {
+        val sixStar = SixStarSurfaceView(requireContext(),isProjectOrtho)
         sixStar.requestFocus()
         sixStar.isFocusableInTouchMode = true
-
+        return sixStar
     }
 
     private fun initData() {
@@ -100,6 +107,11 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
 //                    "event".toast()
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(sixStar)
+                }
+                binding.tvSixStar2 -> {
+//                    "event".toast()
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(sixStar2)
                 }
                 else ->{
 
