@@ -13,7 +13,7 @@ import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
 import com.a.dproject.opengl.MyTDView
-import com.a.dproject.toast
+import com.a.dproject.views.MySurfaceView
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -22,6 +22,8 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
 
     protected lateinit var binding: FragmentGlFirstBinding
     lateinit var viewModel: GlFirstViewModel
+    lateinit var triangleView:MyTDView
+    lateinit var sixStar:MySurfaceView
 
     var id:Long = 0L
 
@@ -70,10 +72,15 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         binding.lifecycleOwner = this
         binding.onClickListener = this
 
-        val mview= MyTDView(requireContext());//创建MyTDView类的对象
-        mview.requestFocus();//获取焦点
-        mview.setFocusableInTouchMode(true);//设置为可触控
-        binding.flContainer.addView(mview)
+        triangleView= MyTDView(requireContext());//创建MyTDView类的对象
+        triangleView.requestFocus();//获取焦点
+        triangleView.setFocusableInTouchMode(true);//设置为可触控
+        binding.flContainer.addView(triangleView)
+
+        sixStar = MySurfaceView(requireContext())
+        sixStar.requestFocus()
+        sixStar.isFocusableInTouchMode = true
+
     }
 
     private fun initData() {
@@ -85,10 +92,14 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         p0?.let {
             when (it) {
                 binding.message -> {
-                    "message".toast()
+//                    "message".toast()
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(triangleView)
                 }
                 binding.tvEvent -> {
-                    "event".toast()
+//                    "event".toast()
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(sixStar)
                 }
                 else ->{
 
