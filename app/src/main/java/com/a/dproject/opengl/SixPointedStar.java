@@ -99,6 +99,12 @@ public class SixPointedStar
 				colorArray[i*4+2]=1;
 				colorArray[i*4+3]=0;
 			}
+			else if(i%1==0){
+				colorArray[i*4]=0;
+				colorArray[i*4+1]=0f;
+				colorArray[i*4+2]=0f;
+				colorArray[i*4+3]=0;
+			}
 			else{//边上的点为淡蓝色，RGBA 4个通道[0.45,0.75,0.75,0]
 				colorArray[i*4]=0.45f;
 				colorArray[i*4+1]=0.75f;

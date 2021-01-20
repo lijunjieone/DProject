@@ -45,7 +45,7 @@ public class SixStarSurfaceView extends GLSurfaceView
 
 	private class SceneRenderer implements Renderer
     {   
-    	SixPointedStar[] ha=new SixPointedStar[6];//六角星数组
+    	SixPointedStar[] ha=new SixPointedStar[2];//六角星数组
     	
         public void onDrawFrame(GL10 gl) 
         { 
@@ -80,7 +80,7 @@ public class SixStarSurfaceView extends GLSurfaceView
             //创建六角星数组中的各个六角星 
             for(int i=0;i<ha.length;i++)
             {
-            	ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.5f,-0.3f*i);
+            	ha[i]=new SixPointedStar(SixStarSurfaceView.this,0.2f,0.8f,-0.3f*i);
             }            
             //打开深度检测
             GLES30.glEnable(GLES30.GL_DEPTH_TEST);
