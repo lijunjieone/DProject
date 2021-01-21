@@ -256,8 +256,9 @@ public class Cube
 		Matrix.rotateM(mMMatrix,0,xAngle,1,0,0);
 
 		//将最终变换矩阵传入shader程序
-         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
-         //为画笔指定顶点位置数据
+         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
+//		GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
+		//为画笔指定顶点位置数据
          GLES30.glVertexAttribPointer  
          (
          		maPositionHandle,   
