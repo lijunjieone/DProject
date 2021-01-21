@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
+import com.a.dproject.opengl.CubeSurfaceView
 import com.a.dproject.opengl.MyTDView
 import com.a.dproject.opengl.SixStarSurfaceView
 import com.a.processor.ListFragmentAnnotation
@@ -25,6 +26,8 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var triangleView:MyTDView
     lateinit var sixStar:SixStarSurfaceView
     lateinit var sixStar2:SixStarSurfaceView
+    lateinit var cube:CubeSurfaceView
+
 
     var id:Long = 0L
 
@@ -81,6 +84,10 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         sixStar = createSixStar(false)
         sixStar2 = createSixStar(true)
 
+        cube = CubeSurfaceView(requireContext())
+        cube.requestFocus()
+        cube.isFocusableInTouchMode = true
+
     }
 
     private fun createSixStar(isProjectOrtho:Boolean): SixStarSurfaceView {
@@ -112,6 +119,11 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
 //                    "event".toast()
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(sixStar2)
+                }
+                binding.tvCube -> {
+//                    "event".toast()
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(cube)
                 }
                 else ->{
 

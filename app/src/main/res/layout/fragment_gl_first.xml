@@ -60,5 +60,15 @@
               android:onClick="@{onClickListener}"
               app:layout_constraintStart_toEndOf="@id/tv_six_star"
               app:layout_constraintTop_toTopOf="@id/tv_triangle_view" />
+
+          <TextView
+              android:id="@+id/tv_cube"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="30dp"
+              android:text="正方形平移"
+              android:onClick="@{onClickListener}"
+              app:layout_constraintStart_toEndOf="@id/tv_six_star2"
+              app:layout_constraintTop_toTopOf="@id/tv_triangle_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
