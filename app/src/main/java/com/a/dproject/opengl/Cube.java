@@ -24,14 +24,18 @@ public class Cube
     float xAngle = 0;
     float yAngle = 0;
 
+    boolean isTouch = false;
 
 
-    public Cube(CubeSurfaceView mv)
-    {    	
+
+    public Cube(CubeSurfaceView mv,boolean isTouch)
+    {
+    	this.isTouch = isTouch;
     	//初始化顶点坐标与着色数据
     	initVertexData();
     	//初始化shader        
     	initShader(mv);
+
     }
     
     //初始化顶点坐标与着色数据的方法
@@ -255,9 +259,14 @@ public class Cube
 		//设置绕x轴旋转xAngle度
 		Matrix.rotateM(mMMatrix,0,xAngle,1,0,0);
 
-		//将最终变换矩阵传入shader程序
-         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
-//		GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
+		if(!isTouch){
+			//将最终变换矩阵传入shader程序
+			GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
+		}else {
+			GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
+
+		}
+
 		//为画笔指定顶点位置数据
          GLES30.glVertexAttribPointer  
          (

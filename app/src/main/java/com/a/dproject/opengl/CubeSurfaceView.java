@@ -11,10 +11,10 @@ import javax.microedition.khronos.opengles.GL10;
 public class CubeSurfaceView extends GLSurfaceView
 {
     private SceneRenderer mRenderer;//场景渲染器
-	public CubeSurfaceView(Context context) {
+	public CubeSurfaceView(Context context,boolean isTouch) {
         super(context);
         this.setEGLContextClientVersion(3); //设置使用OPENGL ES3.0
-        mRenderer = new SceneRenderer();	//创建场景渲染器
+        mRenderer = new SceneRenderer(isTouch);	//创建场景渲染器
         setRenderer(mRenderer);				//设置渲染器		        
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
     }
@@ -47,6 +47,12 @@ public class CubeSurfaceView extends GLSurfaceView
     private class SceneRenderer implements GLSurfaceView.Renderer
     {   
     	Cube cube;//立方体对象引用
+        boolean isTouch;
+
+        public SceneRenderer(boolean isTouch){
+            this.isTouch = isTouch;
+        }
+
     	
         public void onDrawFrame(GL10 gl) 
         { 
@@ -88,7 +94,7 @@ public class CubeSurfaceView extends GLSurfaceView
             //设置屏幕背景色RGBA
             GLES30.glClearColor(0.5f,0.5f,0.5f, 1.0f);  
             //创建立方体对象
-            cube=new Cube(CubeSurfaceView.this);
+            cube=new Cube(CubeSurfaceView.this,isTouch);
             //打开深度检测
             GLES30.glEnable(GLES30.GL_DEPTH_TEST);
             //打开背面剪裁   

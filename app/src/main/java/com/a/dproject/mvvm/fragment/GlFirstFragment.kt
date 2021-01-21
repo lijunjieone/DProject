@@ -27,6 +27,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var sixStar:SixStarSurfaceView
     lateinit var sixStar2:SixStarSurfaceView
     lateinit var cube:CubeSurfaceView
+    lateinit var cube2:CubeSurfaceView
 
 
     var id:Long = 0L
@@ -84,12 +85,18 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         sixStar = createSixStar(false)
         sixStar2 = createSixStar(true)
 
-        cube = CubeSurfaceView(requireContext())
-        cube.requestFocus()
-        cube.isFocusableInTouchMode = true
+        cube = createCube(false)
+
+        cube2 = createCube(true)
 
     }
 
+    private fun createCube(isTouch:Boolean):CubeSurfaceView {
+        val cube = CubeSurfaceView(requireContext(),isTouch)
+        cube.requestFocus()
+        cube.isFocusableInTouchMode = true
+        return cube
+    }
     private fun createSixStar(isProjectOrtho:Boolean): SixStarSurfaceView {
         val sixStar = SixStarSurfaceView(requireContext(),isProjectOrtho)
         sixStar.requestFocus()
@@ -124,6 +131,10 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
 //                    "event".toast()
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(cube)
+                }
+                binding.tvCube2 ->{
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(cube2)
                 }
                 else ->{
 
