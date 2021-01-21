@@ -3,6 +3,7 @@ package com.a.dproject.opengl;
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -18,7 +19,32 @@ public class CubeSurfaceView extends GLSurfaceView
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
     }
 
-	private class SceneRenderer implements GLSurfaceView.Renderer 
+    float mPreviousY = 0;
+	float mPreviousX = 0.0f;
+    private final float TOUCH_SCALE_FACTOR = 180.0f/320;//角度缩放比例
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+	    float y = event.getY();
+	    float x = event.getX();
+
+	    switch (event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                float dy = y - mPreviousY;
+                float dx = x - mPreviousX;
+
+                mRenderer.getCube().xAngle += dx * TOUCH_SCALE_FACTOR;
+                mRenderer.getCube().yAngle += dy * TOUCH_SCALE_FACTOR;
+        }
+
+        mPreviousX = x;
+	    mPreviousY = y;
+
+	    return true;
+    }
+
+    private class SceneRenderer implements GLSurfaceView.Renderer
     {   
     	Cube cube;//立方体对象引用
     	
@@ -39,6 +65,9 @@ public class CubeSurfaceView extends GLSurfaceView
             MatrixState.popMatrix();//恢复现场
         }
 
+        public Cube getCube() {
+            return cube;
+        }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
             //设置视口大小及位置 
