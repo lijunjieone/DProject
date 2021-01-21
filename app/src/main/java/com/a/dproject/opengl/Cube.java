@@ -238,6 +238,7 @@ public class Cube
     {        
     	 //制定使用某套shader程序
     	 GLES30.glUseProgram(mProgram);
+
          //将最终变换矩阵传入shader程序
          GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
          //为画笔指定顶点位置数据

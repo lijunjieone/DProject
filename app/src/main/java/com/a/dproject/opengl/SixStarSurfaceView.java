@@ -82,11 +82,15 @@ public class SixStarSurfaceView extends GLSurfaceView
 					0, 0, 0f, 
 					0f, 1.0f, 0.0f
 					);
+            //初始化变换矩阵
+            MatrixState.setInitStack();
         }
+
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
             //设置屏幕背景色RGBA
-            GLES30.glClearColor(0.5f,0.5f,0.5f, 1.0f);  
+            GLES30.glClearColor(0.5f,0.5f,0.5f, 1.0f);
+
             //创建六角星数组中的各个六角星 
             for(int i=0;i<ha.length;i++)
             {

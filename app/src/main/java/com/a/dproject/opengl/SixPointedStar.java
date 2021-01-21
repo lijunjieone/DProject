@@ -142,7 +142,7 @@ public class SixPointedStar
     
   //绘制图形的方法
     public void drawSelf()
-    {        
+    {
     	//指定使用某套着色器程序
     	 GLES30.glUseProgram(mProgram);        
     	 //初始化变换矩阵
@@ -154,7 +154,7 @@ public class SixPointedStar
          //设置绕x轴旋转xAngle度
          Matrix.rotateM(mMMatrix,0,xAngle,1,0,0);  
          //将最终变换矩阵传入渲染管线
-         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(), 0);
+         GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, MatrixState.getFinalMatrix(mMMatrix), 0);
          //将顶点位置数据送入渲染管线
          GLES30.glVertexAttribPointer  
          (
