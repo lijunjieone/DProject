@@ -11,10 +11,10 @@ import javax.microedition.khronos.opengles.GL10;
 public class CubeSurfaceView extends GLSurfaceView
 {
     private SceneRenderer mRenderer;//场景渲染器
-	public CubeSurfaceView(Context context,boolean isTouch) {
+	public CubeSurfaceView(Context context,boolean isTouch,boolean isRotate) {
         super(context);
         this.setEGLContextClientVersion(3); //设置使用OPENGL ES3.0
-        mRenderer = new SceneRenderer(isTouch);	//创建场景渲染器
+        mRenderer = new SceneRenderer(isTouch,isRotate);	//创建场景渲染器
         setRenderer(mRenderer);				//设置渲染器		        
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
     }
@@ -48,9 +48,11 @@ public class CubeSurfaceView extends GLSurfaceView
     {   
     	Cube cube;//立方体对象引用
         boolean isTouch;
+        boolean isRotate;
 
-        public SceneRenderer(boolean isTouch){
+        public SceneRenderer(boolean isTouch,boolean isRotate){
             this.isTouch = isTouch;
+            this.isRotate = isRotate;
         }
 
     	
@@ -66,8 +68,13 @@ public class CubeSurfaceView extends GLSurfaceView
             
             //绘制变换后的立方体
             MatrixState.pushMatrix();//保护现场
-            MatrixState.translate(3.5f, 0, 0);//沿x方向平移3.5
-            cube.drawSelf();//绘制立方体   
+            if(isRotate){
+                MatrixState.translate(0f, 0.5f, 0);//沿x方向平移3.5
+                MatrixState.rotate(30.0f,0f, 1.5f, 0);//沿y轴倾斜
+            }else {
+                MatrixState.translate(0f, 0.5f, 0);//沿x方向平移3.5
+            }
+            cube.drawSelf();//绘制立方体
             MatrixState.popMatrix();//恢复现场
         }
 
