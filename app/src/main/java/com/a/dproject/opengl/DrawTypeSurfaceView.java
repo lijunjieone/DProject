@@ -18,6 +18,10 @@ public class DrawTypeSurfaceView extends GLSurfaceView
         Constant.CURR_DRAW_MODE = Constant.GL_POINTS;//初始化为绘制点模式
     }
 
+    public void setDrawMode(int mode){
+	    Constant.CURR_DRAW_MODE = mode;
+    }
+
 	private class SceneRenderer implements Renderer
     {   
     	PointsOrLines PointsOrLines;//点或线

@@ -12,10 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
-import com.a.dproject.opengl.CubeSurfaceView
-import com.a.dproject.opengl.DrawTypeSurfaceView
-import com.a.dproject.opengl.MyTDView
-import com.a.dproject.opengl.SixStarSurfaceView
+import com.a.dproject.opengl.*
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -161,7 +158,10 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
                 }
                 binding.tvDrawType ->{
                     binding.flContainer.removeAllViews()
+                    val mode = if(Constant.CURR_DRAW_MODE == Constant.GL_LINE_LOOP) Constant.GL_POINTS else Constant.CURR_DRAW_MODE+1
+                    drawType.setDrawMode(mode)
                     binding.flContainer.addView(drawType)
+
                 }
                 else ->{
 
