@@ -69,10 +69,10 @@ public class CubeSurfaceView extends GLSurfaceView
             //绘制变换后的立方体
             MatrixState.pushMatrix();//保护现场
             if(isRotate){
-                MatrixState.translate(0f, 0.5f, 0);//沿x方向平移3.5
+                MatrixState.translate(0f, 1.5f, 0);//沿x方向平移3.5
                 MatrixState.rotate(30.0f,0f, 1.5f, 0);//沿y轴倾斜
             }else {
-                MatrixState.translate(0f, 0.5f, 0);//沿x方向平移3.5
+                MatrixState.translate(0f, 1.5f, 0);//沿x方向平移3.5
             }
             cube.drawSelf();//绘制立方体
             MatrixState.popMatrix();//恢复现场
