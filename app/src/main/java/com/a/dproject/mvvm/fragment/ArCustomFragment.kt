@@ -93,7 +93,7 @@ class ArCustomFragment : ArtBaseFragment() , View.OnClickListener{
                     andyRenderable = renderable
                 })
 
-        ViewRenderable.builder().setView(requireContext(), R.layout.activity_simple).build()
+        ViewRenderable.builder().setView(requireContext(), R.layout.activity_simple2).build()
                 .thenAccept {
                     viewRenderable = it
                 }

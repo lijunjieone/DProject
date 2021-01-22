@@ -80,6 +80,7 @@
               android:layout_marginTop="10dp"
               android:onClick="@{onClickListener}"
               app:layout_constraintStart_toStartOf="@id/tv_triangle_view"
-              app:layout_constraintTop_toBottomOf="@id/tv_triangle_view" />
+              app:layout_constraintTop_toBottomOf="@id/tv_triangle_view"
+              ></TextView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
