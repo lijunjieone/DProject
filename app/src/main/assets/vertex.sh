@@ -7,5 +7,6 @@ out  vec4 vColor;  //用于传递给片元着色器的变量
 void main()
 {
    gl_Position = uMVPMatrix * vec4(aPosition,1); //根据总变换矩阵计算此次绘制此顶点位置
+   gl_PointSize=10.0; //设置点的大小
    vColor = aColor;//将接收的颜色传递给片元着色器
 }

@@ -13,6 +13,7 @@ import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlFirstBinding
 import com.a.dproject.mvvm.viewmodel.GlFirstViewModel
 import com.a.dproject.opengl.CubeSurfaceView
+import com.a.dproject.opengl.DrawTypeSurfaceView
 import com.a.dproject.opengl.MyTDView
 import com.a.dproject.opengl.SixStarSurfaceView
 import com.a.processor.ListFragmentAnnotation
@@ -30,6 +31,7 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var cube2:CubeSurfaceView
     lateinit var cube3:CubeSurfaceView
     lateinit var cube4:CubeSurfaceView
+    lateinit var drawType:DrawTypeSurfaceView
 
 
     var id:Long = 0L
@@ -92,7 +94,16 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
         cube2 = createCube(isTouch = true, matrixType = CubeSurfaceView.TYPE_TRANSLATE)
         cube3 = createCube(isTouch = false, matrixType = CubeSurfaceView.TYPE_ROTATE)
         cube4 = createCube(isTouch = false, matrixType = CubeSurfaceView.TYPE_SCALE)
+        drawType = createDrawType()
 
+
+    }
+
+    private fun createDrawType():DrawTypeSurfaceView {
+        val cube = DrawTypeSurfaceView(requireContext())
+        cube.requestFocus()
+        cube.isFocusableInTouchMode = true
+        return cube
     }
 
     private fun createCube(isTouch:Boolean,matrixType:Int):CubeSurfaceView {
@@ -147,6 +158,10 @@ class GlFirstFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvCube4 ->{
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(cube4)
+                }
+                binding.tvDrawType ->{
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(drawType)
                 }
                 else ->{
 
