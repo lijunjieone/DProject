@@ -11,13 +11,16 @@ import javax.microedition.khronos.opengles.GL10;
 public class CubeSurfaceView extends GLSurfaceView
 {
     private SceneRenderer mRenderer;//场景渲染器
-	public CubeSurfaceView(Context context,boolean isTouch,boolean isRotate) {
+	public CubeSurfaceView(Context context,boolean isTouch,int matrixType) {
         super(context);
         this.setEGLContextClientVersion(3); //设置使用OPENGL ES3.0
-        mRenderer = new SceneRenderer(isTouch,isRotate);	//创建场景渲染器
+        mRenderer = new SceneRenderer(isTouch,matrixType);	//创建场景渲染器
         setRenderer(mRenderer);				//设置渲染器		        
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
     }
+    public final static int TYPE_TRANSLATE = 0;
+    public final static int TYPE_ROTATE = 1;
+    public final static int TYPE_SCALE = 2;
 
     float mPreviousY = 0;
 	float mPreviousX = 0.0f;
@@ -48,11 +51,11 @@ public class CubeSurfaceView extends GLSurfaceView
     {   
     	Cube cube;//立方体对象引用
         boolean isTouch;
-        boolean isRotate;
+        int matrixType = 0;
 
-        public SceneRenderer(boolean isTouch,boolean isRotate){
+        public SceneRenderer(boolean isTouch,int matrixType){
             this.isTouch = isTouch;
-            this.isRotate = isRotate;
+            this.matrixType = matrixType;
         }
 
     	
@@ -68,9 +71,14 @@ public class CubeSurfaceView extends GLSurfaceView
             
             //绘制变换后的立方体
             MatrixState.pushMatrix();//保护现场
-            if(isRotate){
+            if(matrixType == TYPE_ROTATE) {
                 MatrixState.translate(0f, 1.5f, 0);//沿x方向平移3.5
-                MatrixState.rotate(30.0f,0f, 1.5f, 0);//沿y轴倾斜
+                MatrixState.rotate(30.0f, 0f, 1.5f, 0);//沿y轴倾斜
+            }else if(matrixType == TYPE_SCALE){
+                MatrixState.translate(0, 1.5f, 0);					// 沿x方向平移3.5f
+                MatrixState.rotate(30, 0, 1.5f, 1);					// 绕z轴旋转30°
+                MatrixState.scale(0.4f, 2f, 0.6f);					//x、y、z 3个方向按各自的缩放因子进行缩放
+
             }else {
                 MatrixState.translate(0f, 1.5f, 0);//沿x方向平移3.5
             }
