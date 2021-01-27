@@ -1,8 +1,8 @@
 package com.bn.view;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import android.view.MotionEvent;
+
+import javax.microedition.khronos.opengles.GL10;
 
 public abstract class BNAbstractView 
 {

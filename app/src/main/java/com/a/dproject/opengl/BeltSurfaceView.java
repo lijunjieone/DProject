@@ -6,7 +6,7 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-class BeltSurfaceView extends GLSurfaceView
+public class BeltSurfaceView extends GLSurfaceView
 {
     private SceneRenderer mRenderer;//场景渲染器
 	public BeltSurfaceView(Context context) {
@@ -30,12 +30,12 @@ class BeltSurfaceView extends GLSurfaceView
             MatrixState.pushMatrix(); 
             //绘制条状物
             MatrixState.pushMatrix();//保护现场
-            MatrixState.translate(-1.3f, 0, 0);//沿x轴负方向平移
+            MatrixState.translate(0, -1.3f, 0);//沿x轴负方向平移
             belt.drawSelf();    
             MatrixState.popMatrix();//恢复现场
             //绘制圆
             MatrixState.pushMatrix();//保护现场
-            MatrixState.translate(1.3f, 0, 0);//沿x轴正方向平移
+            MatrixState.translate(0, 0.4f, 0);//沿x轴正方向平移
             circle.drawSelf();    
             MatrixState.popMatrix();//恢复现场          
             //恢复现场

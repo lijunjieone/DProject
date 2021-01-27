@@ -31,7 +31,7 @@ public class Circle
     public void initVertexData()
     {
     	//顶点坐标数据的初始化================begin============================
-    	int n = 10;
+    	int n = 30;
         vCount=n+2;         
     
         float angdegSpan=360.0f/n;		
