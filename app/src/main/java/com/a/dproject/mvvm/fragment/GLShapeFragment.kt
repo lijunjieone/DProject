@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlShapeBinding
 import com.a.dproject.mvvm.viewmodel.GLShapeViewModel
-import com.a.dproject.opengl.*
+import com.a.dproject.opengl.BeltSurfaceView
+import com.a.dproject.opengl.CircleSurfaceView
+import com.a.dproject.opengl.SixStarSurfaceViewV2
 import com.a.processor.ListFragmentAnnotation
-import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.opengles.GL10
 
 
 @ListFragmentAnnotation("OpenGlV3 图形", parentName = "OpenGLV3Learn")
@@ -26,7 +26,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
 
     lateinit var beltSurfaceView: BeltSurfaceView
     private lateinit var circleSurfaceView: CircleSurfaceView
-    lateinit var customSurfaceView: CustomSurfaceView
+    lateinit var sixStarSurfaceView: SixStarSurfaceViewV2
 
     var id:Long = 0L
 
@@ -83,31 +83,35 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
 
         createCustomSurface()
     }
-
     private fun createCustomSurface() {
-        customSurfaceView = CustomSurfaceView(requireContext());
-        class CircleRenderer: CustomSurfaceView.SmallRenderer {
-            var circle //圆
-                    : CircleV3? = null
-           override fun onDrawFrame(gl: GL10){
-                //绘制圆
-                MatrixState.pushMatrix() //保护现场
-                MatrixState.translate(0f, 0.4f, 0f) //沿x轴正方向平移
-                circle!!.drawSelf(6, 12) //绘制半个圆
-                MatrixState.popMatrix() //恢复现场
-                //恢复现场
-                MatrixState.popMatrix()
-            }
-            override fun onSurfaceChanged(gl: GL10, width: Int, height: Int){}
-            override fun onSurfaceCreated(gl: GL10, config: EGLConfig){
-                //创建圆对象
-                circle = CircleV3(customSurfaceView)
+        sixStarSurfaceView = SixStarSurfaceViewV2(requireContext())
 
-            }
-        }
-
-        customSurfaceView.initRender(CircleRenderer())
     }
+
+//    private fun createCustomSurface() {
+//        customSurfaceView = CustomSurfaceView(requireContext());
+//        class CircleRenderer: CustomSurfaceView.SmallRenderer {
+//            var circle //圆
+//                    : CircleV3? = null
+//           override fun onDrawFrame(gl: GL10){
+//                //绘制圆
+//                MatrixState.pushMatrix() //保护现场
+//                MatrixState.translate(0f, 0.4f, 0f) //沿x轴正方向平移
+//                circle!!.drawSelf(6, 12) //绘制半个圆
+//                MatrixState.popMatrix() //恢复现场
+//                //恢复现场
+//                MatrixState.popMatrix()
+//            }
+//            override fun onSurfaceChanged(gl: GL10, width: Int, height: Int){}
+//            override fun onSurfaceCreated(gl: GL10, config: EGLConfig){
+//                //创建圆对象
+//                circle = CircleV3(customSurfaceView)
+//
+//            }
+//        }
+//
+//        customSurfaceView.initRender(CircleRenderer())
+//    }
 
 
 
@@ -129,7 +133,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 }
                 binding.tvCircle2 -> {
                     binding.flContainer.removeAllViews()
-                    binding.flContainer.addView(customSurfaceView)
+                    binding.flContainer.addView(sixStarSurfaceView)
                 }
                 else -> {
 
