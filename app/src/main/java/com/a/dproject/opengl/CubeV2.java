@@ -36,29 +36,29 @@ public class CubeV2
 		MatrixState.popMatrix();
 		
 		//绘制上大面
-		MatrixState.pushMatrix();	
+		MatrixState.pushMatrix();
 		MatrixState.translate(0,UNIT_SIZE,0);
 		MatrixState.rotate(-90, 1, 0, 0);
 		cr.drawSelf();
 		MatrixState.popMatrix();
 		
 		//绘制下大面
-		MatrixState.pushMatrix();	
+		MatrixState.pushMatrix();
 		MatrixState.translate(0,-UNIT_SIZE,0);
 		MatrixState.rotate(90, 1, 0, 0);
 		cr.drawSelf();
 		MatrixState.popMatrix();
-		
+
 		//绘制左大面
-		MatrixState.pushMatrix();	
+		MatrixState.pushMatrix();
 		MatrixState.translate(UNIT_SIZE,0,0);
 		MatrixState.rotate(-90, 1, 0, 0);
 		MatrixState.rotate(90, 0, 1, 0);
 		cr.drawSelf();
 		MatrixState.popMatrix();
-		
+
 		//绘制右大面
-		MatrixState.pushMatrix();				
+		MatrixState.pushMatrix();
 		MatrixState.translate(-UNIT_SIZE,0,0);
 		MatrixState.rotate(90, 1, 0, 0);
 		MatrixState.rotate(-90, 0, 1, 0);
