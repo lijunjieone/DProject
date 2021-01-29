@@ -126,6 +126,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
 
 
 
+    var progress = 1.0f
     override fun onClick(p0: View?) {
         p0?.let {
             when (it) {
@@ -152,6 +153,16 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvBall -> {
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(ballSurfaceView)
+                }
+                binding.tvCube4 -> {
+                    val max = 100
+                    progress+=5
+                    if(progress>max) {
+                        progress = 1.0f
+                    }
+                    val value  = (max/2.0f-progress)/(max/2.0f)*-4
+                    ballSurfaceView.setLightOffset(value)
+
                 }
                 else -> {
 

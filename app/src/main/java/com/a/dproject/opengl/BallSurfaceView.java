@@ -40,13 +40,22 @@ public class BallSurfaceView extends GLSurfaceView
         mPreviousX = x;//记录触控笔位置
         return true;
     }
-	@SuppressLint("NewApi")
+
+    float lightOffset=-4;//灯光的位置或方向的偏移量
+
+    public void setLightOffset(float lightOffset) {
+        this.lightOffset = lightOffset;
+    }
+
+    @SuppressLint("NewApi")
 	private class SceneRenderer implements Renderer
     {
         public void onDrawFrame(GL10 gl) 
         {
         	//清除深度缓冲与颜色缓冲
             GLES30.glClear( GLES30.GL_DEPTH_BUFFER_BIT | GLES30.GL_COLOR_BUFFER_BIT);
+            //设置光源位置
+            MatrixState.setLightLocation(lightOffset, 0, 1.5f);
             //保护现场
             MatrixState.pushMatrix();
             //绘制球
