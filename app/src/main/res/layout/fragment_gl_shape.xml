@@ -47,17 +47,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="顶点数组园"
+            android:text="顶点数组圆"
             android:onClick="@{onClickListener}"
             app:layout_constraintStart_toEndOf="@id/tv_belt"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
-
         <TextView
-            android:id="@+id/tv_six_star2"
+            android:id="@+id/tv_circle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="正交六角形"
+            android:text="自定义圆"
             android:onClick="@{onClickListener}"
             app:layout_constraintStart_toEndOf="@id/tv_circle"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
@@ -69,7 +68,7 @@
             android:layout_marginLeft="30dp"
             android:text="正方形平移"
             android:onClick="@{onClickListener}"
-            app:layout_constraintStart_toEndOf="@id/tv_six_star2"
+            app:layout_constraintStart_toEndOf="@id/tv_circle2"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
 
         <TextView
