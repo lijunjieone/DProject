@@ -83,10 +83,10 @@
             ></TextView>
 
         <TextView
-            android:id="@+id/tv_cube3"
+            android:id="@+id/tv_ball"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正方形旋转"
+            android:text="球"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:onClick="@{onClickListener}"
@@ -101,7 +101,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:onClick="@{onClickListener}"
-            app:layout_constraintStart_toEndOf="@id/tv_cube3"
+            app:layout_constraintStart_toEndOf="@id/tv_ball"
             app:layout_constraintTop_toBottomOf="@id/tv_belt"
             ></TextView>
         <TextView

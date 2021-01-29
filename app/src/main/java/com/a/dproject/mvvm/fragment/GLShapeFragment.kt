@@ -12,10 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlShapeBinding
 import com.a.dproject.mvvm.viewmodel.GLShapeViewModel
-import com.a.dproject.opengl.BeltSurfaceView
-import com.a.dproject.opengl.CircleSurfaceView
-import com.a.dproject.opengl.CubeSurfaceViewV2
-import com.a.dproject.opengl.SixStarSurfaceViewV2
+import com.a.dproject.opengl.*
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -29,7 +26,8 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
     private lateinit var circleSurfaceView: CircleSurfaceView
     lateinit var sixStarSurfaceView: SixStarSurfaceViewV2
     lateinit var cubeSurfaceView: CubeSurfaceViewV2
-    lateinit var cubeSurfaceView2: CubeSurfaceViewV2
+    private lateinit var cubeSurfaceView2: CubeSurfaceViewV2
+    lateinit var ballSurfaceView: BallSurfaceView
 
     var id:Long = 0L
 
@@ -88,6 +86,9 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
         cubeSurfaceView = CubeSurfaceViewV2(requireContext())
         cubeSurfaceView2 = CubeSurfaceViewV2(requireContext())
         cubeSurfaceView2.setType(1)
+
+        ballSurfaceView = BallSurfaceView(requireContext());
+
     }
     private fun createCustomSurface() {
         sixStarSurfaceView = SixStarSurfaceViewV2(requireContext())
@@ -147,6 +148,10 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvCube2 -> {
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(cubeSurfaceView2)
+                }
+                binding.tvBall -> {
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(ballSurfaceView)
                 }
                 else -> {
 
