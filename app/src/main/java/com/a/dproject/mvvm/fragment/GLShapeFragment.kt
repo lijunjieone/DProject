@@ -29,6 +29,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
     private lateinit var circleSurfaceView: CircleSurfaceView
     lateinit var sixStarSurfaceView: SixStarSurfaceViewV2
     lateinit var cubeSurfaceView: CubeSurfaceViewV2
+    lateinit var cubeSurfaceView2: CubeSurfaceViewV2
 
     var id:Long = 0L
 
@@ -85,6 +86,8 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
 
         createCustomSurface()
         cubeSurfaceView = CubeSurfaceViewV2(requireContext())
+        cubeSurfaceView2 = CubeSurfaceViewV2(requireContext())
+        cubeSurfaceView2.setType(1)
     }
     private fun createCustomSurface() {
         sixStarSurfaceView = SixStarSurfaceViewV2(requireContext())
@@ -140,6 +143,10 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvCube -> {
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(cubeSurfaceView)
+                }
+                binding.tvCube2 -> {
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(cubeSurfaceView2)
                 }
                 else -> {
 

@@ -15,6 +15,7 @@ public class CubeSurfaceViewV2 extends GLSurfaceView
     private float mPreviousX;//上次的触控位置X坐标
     
     float yAngle=0;//总场景绕y轴旋转的角度
+    int type = 0;
 	
 	public CubeSurfaceViewV2(Context context) {
         super(context);
@@ -22,9 +23,13 @@ public class CubeSurfaceViewV2 extends GLSurfaceView
         mRenderer = new SceneRenderer();	//创建场景渲染器
         setRenderer(mRenderer);				//设置渲染器		        
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
-    }   
-	
-	//触摸事件回调方法
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    //触摸事件回调方法
     @Override 
     public boolean onTouchEvent(MotionEvent e) {
         float x = e.getX();
@@ -73,12 +78,21 @@ public class CubeSurfaceViewV2 extends GLSurfaceView
         	GLES30.glViewport(0, 0, width, height); 
         	//计算视口的宽高比
             float ratio = (float) width / height;
-            
-	        //调用此方法计算产生透视投影矩阵
-	        MatrixState.setProjectFrustum(-ratio*0.7f, ratio*0.7f, -0.7f, 0.7f, 1, 10);
-	        //调用此方法产生摄像机矩阵
-	        MatrixState.setCamera(0,0.5f,4,0f,0f,0f,0f,1.0f,0.0f);
-            
+
+            if(type == 0) {
+                //调用此方法计算产生透视投影矩阵
+                MatrixState.setProjectFrustum(-ratio*0.7f, ratio*0.7f, -0.7f, 0.7f, 1, 10);
+                //调用此方法产生摄像机矩阵
+                MatrixState.setCamera(0,0.5f,4,0f,0f,0f,0f,1.0f,0.0f);
+
+            }else {
+                //调用此方法计算产生透视投影矩阵
+                MatrixState.setProjectFrustum(-ratio, ratio, -1f, 1f, 20, 100);
+                //调用此方法产生摄像机矩阵
+                MatrixState.setCamera(0,8f,45,0f,0f,0f,0f,1.0f,0.0f);
+
+            }
+
             //初始化变换矩阵
             MatrixState.setInitStack();
         }
