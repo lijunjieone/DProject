@@ -43,11 +43,11 @@
             />
 
         <TextView
-            android:id="@+id/tv_six_star"
+            android:id="@+id/tv_circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="透视六角形"
+            android:text="顶点数组园"
             android:onClick="@{onClickListener}"
             app:layout_constraintStart_toEndOf="@id/tv_belt"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
@@ -59,7 +59,7 @@
             android:layout_marginLeft="30dp"
             android:text="正交六角形"
             android:onClick="@{onClickListener}"
-            app:layout_constraintStart_toEndOf="@id/tv_six_star"
+            app:layout_constraintStart_toEndOf="@id/tv_circle"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
 
         <TextView

@@ -13,6 +13,7 @@ import com.a.dproject.R
 import com.a.dproject.databinding.FragmentGlShapeBinding
 import com.a.dproject.mvvm.viewmodel.GLShapeViewModel
 import com.a.dproject.opengl.BeltSurfaceView
+import com.a.dproject.opengl.CircleSurfaceView
 import com.a.processor.ListFragmentAnnotation
 
 
@@ -23,6 +24,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var viewModel: GLShapeViewModel
 
     lateinit var beltSurfaceView: BeltSurfaceView
+    lateinit var circleSurfaceView: CircleSurfaceView
 
     var id:Long = 0L
 
@@ -75,6 +77,8 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
         beltSurfaceView = BeltSurfaceView(requireContext())
         binding.flContainer.addView(beltSurfaceView)
 
+        circleSurfaceView = CircleSurfaceView(requireContext())
+
     }
 
 
@@ -90,6 +94,10 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvBelt -> {
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(beltSurfaceView)
+                }
+                binding.tvCircle -> {
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(circleSurfaceView)
                 }
 
 
