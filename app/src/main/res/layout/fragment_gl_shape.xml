@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="自定义圆"
+            android:text="不同颜色的六角形"
             android:onClick="@{onClickListener}"
             app:layout_constraintStart_toEndOf="@id/tv_circle"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />
@@ -66,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="正方形平移"
+            android:text="正方形视角1"
             android:onClick="@{onClickListener}"
             app:layout_constraintStart_toEndOf="@id/tv_circle2"
             app:layout_constraintTop_toTopOf="@id/tv_belt" />

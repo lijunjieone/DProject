@@ -14,6 +14,7 @@ import com.a.dproject.databinding.FragmentGlShapeBinding
 import com.a.dproject.mvvm.viewmodel.GLShapeViewModel
 import com.a.dproject.opengl.BeltSurfaceView
 import com.a.dproject.opengl.CircleSurfaceView
+import com.a.dproject.opengl.CubeSurfaceViewV2
 import com.a.dproject.opengl.SixStarSurfaceViewV2
 import com.a.processor.ListFragmentAnnotation
 
@@ -27,6 +28,7 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
     lateinit var beltSurfaceView: BeltSurfaceView
     private lateinit var circleSurfaceView: CircleSurfaceView
     lateinit var sixStarSurfaceView: SixStarSurfaceViewV2
+    lateinit var cubeSurfaceView: CubeSurfaceViewV2
 
     var id:Long = 0L
 
@@ -82,10 +84,10 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
         circleSurfaceView = CircleSurfaceView(requireContext())
 
         createCustomSurface()
+        cubeSurfaceView = CubeSurfaceViewV2(requireContext())
     }
     private fun createCustomSurface() {
         sixStarSurfaceView = SixStarSurfaceViewV2(requireContext())
-
     }
 
 //    private fun createCustomSurface() {
@@ -134,6 +136,10 @@ class GLShapeFragment : ArtBaseFragment() , View.OnClickListener{
                 binding.tvCircle2 -> {
                     binding.flContainer.removeAllViews()
                     binding.flContainer.addView(sixStarSurfaceView)
+                }
+                binding.tvCube -> {
+                    binding.flContainer.removeAllViews()
+                    binding.flContainer.addView(cubeSurfaceView)
                 }
                 else -> {
 
