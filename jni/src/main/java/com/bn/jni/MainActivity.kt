@@ -9,7 +9,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.add).text = "${callJavaStaticMethod3("java instance method3",1) }"
+//        findViewById<TextView>(R.id.add).text = "${callJavaStaticMethod3("java instance method3",1) }"
+        findViewById<TextView>(R.id.add).text = "${callJavaInstanceMethod3("java instance method3",1) }"
 
     }
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     external fun callJavaInstaceMethod()
     external fun callJavaStaticMethod2(from:String,index:Int):String
     external fun callJavaStaticMethod3(from:String,index:Int):String
+    external fun callJavaInstanceMethod3(from:String,index:Int):String
 
     companion object {
 
