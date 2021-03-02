@@ -1,22 +1,23 @@
 package com.bn.jni
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.add).text = "${add(10,20) }"
+        findViewById<TextView>(R.id.add).text = "${callJavaInstanceMethod2("test",1) }"
 
     }
 
     external fun stringFromJNI(): String
     external fun stringFromJNI2(): String
     external fun add(a:Int,b:Int):Int
+    external fun callJavaInstaceMethod()
+    external fun callJavaInstanceMethod2(from:String,index:Int):String
 
 
     companion object {
