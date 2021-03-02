@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.add).text = "${callJavaInstanceMethod2("test",1) }"
+        findViewById<TextView>(R.id.add).text = "${callJavaInstanceMethod3("java instance method3",1) }"
 
     }
 
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     external fun add(a:Int,b:Int):Int
     external fun callJavaInstaceMethod()
     external fun callJavaInstanceMethod2(from:String,index:Int):String
+    external fun callJavaInstanceMethod3(from:String,index:Int):String
 
 
     companion object {
