@@ -107,11 +107,11 @@ Java_com_bn_jni_MainActivity_callJavaInstaceMethod(JNIEnv *env, jobject thiz);
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_bn_jni_MainActivity_callJavaInstanceMethod2(JNIEnv *env, jobject thiz, jstring from,
+Java_com_bn_jni_MainActivity_callJavaStaticMethod2(JNIEnv *env, jobject thiz, jstring from,
                                                      jint index);
 
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_bn_jni_MainActivity_callJavaInstanceMethod3(JNIEnv *env, jobject thiz, jstring from,
+Java_com_bn_jni_MainActivity_callJavaStaticMethod3(JNIEnv *env, jobject thiz, jstring from,
                                                      jint index);
