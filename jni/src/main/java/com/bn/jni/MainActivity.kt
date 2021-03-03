@@ -1,5 +1,6 @@
 package com.bn.jni
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 //        findViewById<TextView>(R.id.add).text = "${callJavaStaticMethod3("java instance method3",1) }"
-        findViewById<TextView>(R.id.add).text = "${callJavaInstanceMethod3("java instance method3",1) }"
+        findViewById<TextView>(R.id.add).text = "${callJavaStaticMethod4(baseContext,"java instance method3",1) }"
 
     }
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     external fun callJavaStaticMethod3(from:String,index:Int):String
     external fun callJavaInstanceMethod3(from:String,index:Int):String
     external fun callJavaInstanceMethod4(from:String,index:Int):String
+    external fun callJavaStaticMethod4(context: Context,from:String,index:Int):String
 
     companion object {
 

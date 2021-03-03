@@ -50,6 +50,35 @@ Java_com_bn_jni_MainActivity_callJavaStaticMethod2(JNIEnv *env, jobject thiz, js
 
 extern "C"
 JNIEXPORT jstring JNICALL
+Java_com_bn_jni_MainActivity_callJavaStaticMethod4(JNIEnv *env, jobject thiz, jobject context,
+                                                   jstring from, jint index) {
+    jclass clazz = NULL;
+    jstring str_arg = NULL;
+    jmethodID mid_static_method;
+    // 1、从classpath路径下搜索ClassMethod这个类，并返回该类的Class对象
+    clazz = env->FindClass("com/bn/jni/ClassMethod");
+    if (clazz == NULL) {
+    }
+
+    // 2、从clazz类中查找callStaticMethod方法
+    mid_static_method = env->GetStaticMethodID(clazz,"callStaticMethod2","(Landroid/content/Context;Ljava/lang/String;I)Ljava/lang/String;");
+    if (mid_static_method == NULL) {
+        printf("找不到callStaticMethod这个静态方法。");
+    }
+
+    // 3、调用clazz类的callStaticMethod静态方法
+    str_arg = env->NewStringUTF("我是静态方法");
+    from = (jstring)env->CallStaticObjectMethod(clazz,mid_static_method,context, str_arg, 100);
+
+    // 删除局部引用
+    env->DeleteLocalRef(clazz);
+    env->DeleteLocalRef(str_arg);
+
+    return env->NewStringUTF(jstring2string(env,from).c_str());
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
 Java_com_bn_jni_MainActivity_callJavaInstanceMethod4(JNIEnv *env, jobject thiz, jstring from,
                                                      jint index) {
 
