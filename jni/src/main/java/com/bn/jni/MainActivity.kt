@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     external fun callJavaStaticMethod2(from:String,index:Int):String
     external fun callJavaStaticMethod3(from:String,index:Int):String
     external fun callJavaInstanceMethod3(from:String,index:Int):String
+    external fun callJavaInstanceMethod4(from:String,index:Int):String
 
     companion object {
 

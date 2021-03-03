@@ -48,6 +48,62 @@ Java_com_bn_jni_MainActivity_callJavaStaticMethod2(JNIEnv *env, jobject thiz, js
     return env->NewStringUTF(hello.c_str());
 }
 
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_bn_jni_MainActivity_callJavaInstanceMethod4(JNIEnv *env, jobject thiz, jstring from,
+                                                     jint index) {
+
+    jclass clazz = NULL;
+    jobject jobj = thiz;
+    jmethodID mid_construct = NULL;
+    jmethodID mid_instance = NULL;
+    jstring str_arg = NULL;
+    // 1、从classpath路径下搜索ClassMethod这个类，并返回该类的Class对象
+    clazz = env->FindClass("com/bn/jni/ClassMethod");
+    if (clazz == NULL) {
+        printf("找不到'com.study.jnilearn.ClassMethod'这个类");
+        std::string error = "";
+        return env->NewStringUTF(error.c_str());
+
+    }
+
+    // 2、获取类的默认构造方法ID
+    mid_construct = env->GetMethodID(clazz, "<init>","()V");
+    if (mid_construct == NULL) {
+        printf("找不到默认的构造方法");
+        std::string error = "";
+        return env->NewStringUTF(error.c_str());
+
+    }
+
+    // 3、查找实例方法的ID
+    mid_instance = env->GetMethodID( clazz, "callInstanceMethod", "(Ljava/lang/String;I)Ljava/lang/String;");
+    if (mid_instance == NULL) {
+
+        std::string error = "";
+        return env->NewStringUTF(error.c_str());
+    }
+
+    // 4、创建该类的实例
+//    jobj = env->NewObject(clazz,mid_construct);
+    if (jobj == NULL) {
+        printf("在com.bn.jni.ClassMethod类中找不到callInstanceMethod方法");
+        std::string error = "";
+        return env->NewStringUTF(error.c_str());
+
+    }
+
+    // 5、调用对象的实例方法
+    str_arg = env->NewStringUTF("我是实例方法");
+    from = (jstring )env->CallObjectMethod(jobj,mid_instance,str_arg,200);
+
+    // 删除局部引用
+    env->DeleteLocalRef(clazz);
+    env->DeleteLocalRef(jobj);
+    env->DeleteLocalRef(str_arg);
+    return env->NewStringUTF(jstring2string(env,from).c_str());
+
+}
 
 extern "C"
 JNIEXPORT jstring JNICALL
