@@ -14,21 +14,23 @@
         android:name="android.hardware.camera.ar"
         android:required="true" />
 
-
     <application
+        android:name=".DApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".DApp"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/Theme.DProject">
+        <activity android:name=".TestActivity"
+            android:launchMode="singleTask"></activity>
+
         <meta-data
             android:name="com.google.ar.core"
             android:value="required" />
 
-        <activity android:name="com.a.dproject.mvvm.activity.SimpleActivity">
+        <activity android:name=".mvvm.activity.SimpleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,20 +38,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.a.dproject.MainActivity"
-            android:hardwareAccelerated="true"></activity>
+            android:name=".MainActivity"
+            android:hardwareAccelerated="true" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.a.dproject.androidx-startup"
             android:exported="false"
             tools:node="merge">
-
             <meta-data
                 android:name="com.a.dproject.initializer.TimberInitializer"
                 android:value="androidx.startup" />
         </provider>
-
     </application>
 
 </manifest>
