@@ -115,7 +115,17 @@ class SimpleFragment : ArtBaseFragment() {
                 h.hiddenCard.rank.toast()
             }
         }
+
+        binding.myfTestContainer.setOnClickListener {
+            binding.myfTestContainer.requestLayout()
+        }
+
+        binding.myfTestContainer.setOnLongClickListener {
+            binding.myfTestContainer.invalidate()
+            true
+        }
     }
+
 
     fun handleJson(): BlackjackHand? {
         val moshi = Moshi.Builder()
