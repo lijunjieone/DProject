@@ -1,8 +1,5 @@
 package com.bn.catcherFun;
 
-import com.bn.constant.Constant;
-import com.bn.util.manager.SoundManager;
-import com.bn.util.screenscale.ScreenScaleUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,7 +7,12 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-import static com.bn.constant.SourceConstant.*;
+
+import com.bn.constant.Constant;
+import com.bn.util.manager.SoundManager;
+import com.bn.util.screenscale.ScreenScaleUtil;
+
+import static com.bn.constant.SourceConstant.moneycount;
 public class MainActivity extends Activity {
 	private MySurfaceView mGLSurfaceView;
 	public static SoundManager sound;
@@ -19,6 +21,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Constant.SCREEN_WIDTH_STANDARD = getBaseContext().getResources().getDisplayMetrics().widthPixels;
+		Constant.SCREEN_HEIGHT_STANDARD = getBaseContext().getResources().getDisplayMetrics().heightPixels;
 		
 		sp=this.getSharedPreferences("bn", Context.MODE_PRIVATE);    
         editor=sp.edit();	//取得编辑对象，来修改Preferences文件    
@@ -29,7 +33,7 @@ public class MainActivity extends Activity {
         {
         	
         	editor.putString("count", Integer.toString(20));
-             editor.commit();	//提交修改                	
+            editor.commit();	//提交修改
         }
         moneycount = Integer.parseInt(sp.getString("count",null));
         System.out.println("moneycount    moneycount:"+moneycount);

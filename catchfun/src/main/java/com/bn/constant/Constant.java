@@ -7,7 +7,7 @@ public class Constant
 	static MainActivity mainActivity;
     //=======屏幕自适应数据=======start=======================================================//
 	public static float SCREEN_WIDTH_STANDARD = 1080;//720;//屏幕标准宽度	
-	public static float SCREEN_HEIGHT_STANDARD = 1920;//1280;//屏幕标准高度
+	public static float SCREEN_HEIGHT_STANDARD = 2340;//1280;//屏幕标准高度
 	public static float RATIO = SCREEN_WIDTH_STANDARD/SCREEN_HEIGHT_STANDARD;//屏幕标准比例--即透视投影的比例
 	public static ScreenScaleResult ssr;//屏幕自适应对象
 	//=======屏幕自适应数据=======end=========================================================//
