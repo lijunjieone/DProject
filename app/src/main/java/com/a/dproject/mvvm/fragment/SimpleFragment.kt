@@ -118,7 +118,7 @@ class SimpleFragment : ArtBaseFragment() {
             }
         }
 
-        binding.myfTestContainer.setOnClickListener {
+        binding.layoutAgain.setOnClickListener {
 //            binding.myfTestContainer.requestLayout()
             val i = Intent();
             i.setClass(activity?.baseContext!!,
