@@ -23,8 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DProject">
-        <activity android:name=".TestActivity"
+        <activity android:name=".mvvm.activity.TestActivity"
             android:launchMode="singleTask"></activity>
+        <activity android:name=".mvvm.activity.Test2Activity"
+            android:launchMode="standard"></activity>
 
         <meta-data
             android:name="com.google.ar.core"

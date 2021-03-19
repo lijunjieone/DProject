@@ -1,5 +1,6 @@
 package com.a.dproject.mvvm.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewRootImpl
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
+import com.a.dproject.mvvm.activity.TestActivity
 import com.a.dproject.dagger.Car
 import com.a.dproject.databinding.FragmentSimpleBinding
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
@@ -117,7 +119,13 @@ class SimpleFragment : ArtBaseFragment() {
         }
 
         binding.myfTestContainer.setOnClickListener {
-            binding.myfTestContainer.requestLayout()
+//            binding.myfTestContainer.requestLayout()
+            val i = Intent();
+            i.setClass(activity?.baseContext!!,
+                TestActivity::class.java)
+
+            startActivity(i)
+
         }
 
         binding.myfTestContainer.setOnLongClickListener {
