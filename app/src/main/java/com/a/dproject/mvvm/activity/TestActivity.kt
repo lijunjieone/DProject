@@ -1,5 +1,6 @@
 package com.a.dproject.mvvm.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.a.dproject.R
 
 class TestActivity : AppCompatActivity() {
+    companion object {
+        var contextLeak: Context? = null
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        TestActivity.contextLeak = this
         setContentView(R.layout.activity_test)
         val v = findViewById<View>(R.id.root);
         v.setOnClickListener {
