@@ -9,9 +9,9 @@ import android.view.ViewRootImpl
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.a.dproject.R
-import com.a.dproject.mvvm.activity.TestActivity
 import com.a.dproject.dagger.Car
 import com.a.dproject.databinding.FragmentSimpleBinding
+import com.a.dproject.mvvm.activity.TestActivity
 import com.a.dproject.mvvm.viewmodel.SimpleViewModel
 import com.a.dproject.toast
 import com.a.dproject.utils.DResult
@@ -118,7 +118,7 @@ class SimpleFragment : ArtBaseFragment() {
             }
         }
 
-        binding.layoutAgain.setOnClickListener {
+        binding.message.setOnClickListener {
 //            binding.myfTestContainer.requestLayout()
             val i = Intent();
             i.setClass(activity?.baseContext!!,
