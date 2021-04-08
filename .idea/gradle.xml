@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ar" />
             <option value="$PROJECT_DIR$/catchfun" />
+            <option value="$PROJECT_DIR$/ffmpeg" />
             <option value="$PROJECT_DIR$/helper" />
             <option value="$PROJECT_DIR$/jni" />
           </set>
