@@ -1,4 +1,4 @@
-package com.bn.ffmpeg.media;
+package com.byteflow.learnffmpeg.media;
 
 public abstract class MediaRecorderContext {
     public static final int IMAGE_FORMAT_RGBA = 0x01;

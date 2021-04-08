@@ -1,4 +1,4 @@
-package com.bn.ffmpeg.media;
+package com.byteflow.learnffmpeg.media;
 
 import android.content.Context;
 import android.util.AttributeSet;

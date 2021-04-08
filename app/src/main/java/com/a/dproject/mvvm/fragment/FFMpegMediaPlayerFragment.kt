@@ -17,8 +17,8 @@ import com.a.dproject.R
 import com.a.dproject.databinding.FragmentFfMpegMediaPlayerBinding
 import com.a.dproject.mvvm.viewmodel.FFMpegMediaPlayerViewModel
 import com.a.processor.ListFragmentAnnotation
-import com.bn.ffmpeg.media.FFMediaPlayer
-import com.bn.ffmpeg.media.FFMediaPlayer.*
+import com.byteflow.learnffmpeg.media.FFMediaPlayer
+import com.byteflow.learnffmpeg.media.FFMediaPlayer.*
 
 
 @ListFragmentAnnotation("本地播放器",parentName = "ffmpeg")

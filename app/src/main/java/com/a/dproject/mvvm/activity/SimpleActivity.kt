@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.a.dproject.R
 import com.a.dproject.mvvm.fragment.ListFragment
+import com.bn.ffmpeg.util.CommonUtils
 import com.hunter.library.debug.HunterDebugClass
 import com.permissionx.guolindev.PermissionX
 
@@ -24,6 +25,8 @@ class SimpleActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        CommonUtils.copyAssetsDirToSDCard(this, "byteflow", "/sdcard")
 
         PermissionX.init(this)
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)

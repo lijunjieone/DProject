@@ -1,4 +1,4 @@
-package com.bn.ffmpeg.media;
+package com.byteflow.learnffmpeg.media;
 
 import android.view.Surface;
 

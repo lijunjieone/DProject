@@ -26,7 +26,7 @@
               app:layout_constraintBottom_toTopOf="@+id/seek_bar"
               android:layout_width="match_parent"
               android:layout_height="0dp">
-              <com.bn.ffmpeg.media.MySurfaceView
+              <com.byteflow.learnffmpeg.media.MySurfaceView
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_centerInParent="true"
