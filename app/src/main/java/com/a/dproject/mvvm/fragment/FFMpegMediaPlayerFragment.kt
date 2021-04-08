@@ -4,7 +4,6 @@ package com.a.dproject.mvvm.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
@@ -27,8 +26,7 @@ class FFMpegMediaPlayerFragment : ArtBaseFragment() , View.OnClickListener,  Sur
     lateinit var binding: FragmentFfMpegMediaPlayerBinding
     lateinit var viewModel: FFMpegMediaPlayerViewModel
     lateinit var mMediaPlayer:FFMediaPlayer
-    private val mVideoPath = Environment.getExternalStorageDirectory()
-        .absolutePath + "/byteflow/one_piece.mp4"
+
     var isTouch = false
 
 
@@ -152,6 +150,8 @@ class FFMpegMediaPlayerFragment : ArtBaseFragment() , View.OnClickListener,  Sur
     override fun surfaceCreated(holder: SurfaceHolder) {
         mMediaPlayer = FFMediaPlayer()
         mMediaPlayer.addEventCallback(this)
+        val path = requireActivity().baseContext.filesDir.absolutePath
+        val mVideoPath =   path+ "/byteflow/one_piece.mp4"
         mMediaPlayer.init(mVideoPath,VIDEO_RENDER_ANWINDOW,holder.surface)
     }
 

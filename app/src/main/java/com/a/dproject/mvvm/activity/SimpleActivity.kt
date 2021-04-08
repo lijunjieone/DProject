@@ -26,7 +26,8 @@ class SimpleActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        CommonUtils.copyAssetsDirToSDCard(this, "byteflow", "/sdcard")
+        val path = baseContext.filesDir.absolutePath
+        CommonUtils.copyAssetsDirToSDCard(this, "byteflow", path)
 
         PermissionX.init(this)
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
