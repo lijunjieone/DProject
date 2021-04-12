@@ -1,6 +1,7 @@
 package com.a.dproject.views
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -58,6 +59,14 @@ class MySurfaceView : SurfaceView, Runnable, SurfaceHolder.Callback {
                 }
             }
         }
+    }
+
+    fun snapshot(width:Int,height:Int): Bitmap {
+        val myBitmap = Bitmap.createBitmap(width , height , Bitmap.Config.RGB_565)
+        mCanvas?.let{
+            it.setBitmap(myBitmap)
+        }
+        return myBitmap
     }
 
     private fun drawSomething() {

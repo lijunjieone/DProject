@@ -95,6 +95,7 @@ class SurfaceViewFragment : ArtBaseFragment(), View.OnClickListener {
                 }
                 binding.tvEvent -> {
                     "event".toast()
+                    binding.tvEvent.setImageBitmap(binding.svView.snapshot(200,200))
                 }
             }
         }
