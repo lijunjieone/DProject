@@ -1,10 +1,7 @@
 package com.a.dproject.views
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -20,6 +17,7 @@ class MySurfaceView : SurfaceView, Runnable, SurfaceHolder.Callback {
     private var mHolder: SurfaceHolder
     private var t // 声明一条线程
             : Thread? = null
+    private var bitmap:Bitmap?=null
 
     @Volatile
     var flag // 线程运行的标识，用于控制线程
@@ -62,10 +60,14 @@ class MySurfaceView : SurfaceView, Runnable, SurfaceHolder.Callback {
     }
 
     fun snapshot(width:Int,height:Int): Bitmap {
+
         val myBitmap = Bitmap.createBitmap(width , height , Bitmap.Config.RGB_565)
         mCanvas?.let{
-            it.setBitmap(myBitmap)
+            val baseRect = Rect(0, 0, width, height)
+            it.drawBitmap(myBitmap,baseRect,baseRect,null)
         }
+
+
         return myBitmap
     }
 
