@@ -1,3 +1,2 @@
 include ':BasePlugin'
-include ':app'
 rootProject.name = "AsmPlugin"

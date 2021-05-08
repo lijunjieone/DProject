@@ -11,7 +11,6 @@
                 <projects>
                   <project path="$PROJECT_DIR$/AsmPlugin" />
                   <project path="$PROJECT_DIR$/AsmPlugin/BasePlugin" />
-                  <project path="$PROJECT_DIR$/AsmPlugin/app" />
                 </projects>
               </build>
             </builds>
@@ -25,7 +24,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AsmPlugin" />
             <option value="$PROJECT_DIR$/AsmPlugin/BasePlugin" />
-            <option value="$PROJECT_DIR$/AsmPlugin/app" />
             <option value="$PROJECT_DIR$/annotation-processor4" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ar" />
