@@ -3,6 +3,9 @@ package com.a.dproject.mvvm.fragment
 
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Outline
+import android.graphics.Path
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +15,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.webkit.MimeTypeMap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -213,6 +217,27 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope, View.OnClickListener {
             testCoroutine()
         }
 
+        binding.tvEvent.setBackgroundColor(Color.RED)
+        binding.tvEvent.clipToOutline = true
+        binding.tvEvent.outlineProvider = object :ViewOutlineProvider() {
+            override fun getOutline(view: View?, outline: Outline?) {
+                outline?.setRoundRect(0, 0, view?.getWidth()?:0, view?.getHeight()?:0, 30.0f);
+            }
+        }
+
+        binding.tvEvent2.clipToOutline = true
+        binding.tvEvent2.elevation = 5.0f
+        binding.tvEvent2.outlineProvider = object :ViewOutlineProvider() {
+            override fun getOutline(view: View?, outline: Outline?) {
+                val path = Path()
+                path.moveTo(view!!.width.toFloat(), view.height.toFloat())
+                path.lineTo(view.width.toFloat(), view.height * 2.toFloat())
+                path.lineTo(view.width * 2.toFloat(), view.height * 2.toFloat())
+                path.lineTo(view.width * 2.toFloat(), view.height.toFloat())
+                path.close()
+                outline!!.setConvexPath(path)
+            }
+        }
         binding.tvEvent2.setOnClickListener {
             testLifecycle1()
         }
