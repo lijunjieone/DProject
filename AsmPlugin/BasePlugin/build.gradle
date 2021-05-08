@@ -13,6 +13,6 @@ dependencies {
 }
 
 
-Properties config = new Properties()
-config.load(project.file("nexus.properties").newDataInputStream())
-group = config.getProperty('nexus_groupId')
+//Properties config = new Properties()
+//config.load(project.file("nexus.properties").newDataInputStream())
+//group = config.getProperty('nexus_groupId')
