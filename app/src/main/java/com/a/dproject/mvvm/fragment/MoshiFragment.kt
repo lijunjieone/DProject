@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.a.dproject.R
 import com.a.dproject.databinding.FragmentMoshiBinding
+import com.a.dproject.javassist.PersonService
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
@@ -239,7 +240,8 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope, View.OnClickListener {
             }
         }
         binding.tvEvent2.setOnClickListener {
-            testLifecycle1()
+//            testLifecycle1()
+            PersonService().toastText().toast()
         }
 
         binding.tvEvent.setOnLongClickListener {
@@ -267,6 +269,7 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope, View.OnClickListener {
             true
         }
 
+        val ps = PersonService()
 
     }
 

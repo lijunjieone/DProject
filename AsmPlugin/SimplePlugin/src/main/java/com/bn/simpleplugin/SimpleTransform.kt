@@ -18,7 +18,7 @@ class SimpleTransform(private val project: Project):Transform() {
 
 
     override fun getInputTypes(): Set<QualifiedContent.ContentType> {
-        return TransformManager.CONTENT_JARS
+        return TransformManager.CONTENT_CLASS
     }
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope>? {
@@ -40,6 +40,8 @@ class SimpleTransform(private val project: Project):Transform() {
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
+                }else if(TestAsm.needHandle(className)){
+                    return TestAsm.handleTestClass(classBytes!!)
                 }
                 return null
             }
