@@ -4,7 +4,6 @@ import com.android.build.gradle.AppExtension
 import javassist.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import java.lang.reflect.Method
 
 
 class SimplePlugin : Plugin<Project> {
@@ -13,10 +12,10 @@ class SimplePlugin : Plugin<Project> {
             AppExtension::class.java
         )
 
-        createPerson()
-        updatePerson()
+//        createPerson()
+//        updatePerson()
 
-//        appExtension.registerTransform(SimpleTransform(p0))
+        appExtension.registerTransform(SimpleTransform(p0))
     }
 
 
@@ -26,7 +25,8 @@ class SimplePlugin : Plugin<Project> {
         val pool = ClassPool.getDefault()
 
         // 1. 创建一个空类
-        val cc = pool.makeClass("com.rickiyang.learn.javassist.Person")
+        val cc = pool.makeClass("com.a.dproject.javassist.Person")
+        cc.defrost()
 
         // 2. 新增一个字段 private String name;
         // 字段名为name
@@ -57,16 +57,19 @@ class SimplePlugin : Plugin<Project> {
         ctMethod.setBody("{System.out.println(name);}")
         cc.addMethod(ctMethod)
 
+//        D:\dev\studio\DProject\app\src\main\java\com\a\dproject\javassist\PersonService.java
         //这里会将这个创建的类对象编译为.class文件
-        cc.writeFile("D:\\dev\\studio\\DProject\\AsmPlugin\\SimplePlugin\\src\\main\\java\\")
+        cc.writeFile("D:\\dev\\studio\\DProject\\app\\src\\main\\java\\")
     }
 
     @Throws(java.lang.Exception::class)
     fun updatePerson() {
         val pool = ClassPool.getDefault()
-        val cc = pool["com.rickiyang.learn.javassist.Person"]
+        pool.appendClassPath("D:\\dev\\studio\\DProject\\app\\build\\intermediates\\javac\\debug\\classes")
+        val cc = pool.get("com.a.dproject.javassist.PersonService")
+//        val cc = pool["com.a.dproject.javassist.PersonService"]
         cc.defrost()
-        val personFly = cc.getDeclaredMethod("getName")
+        val personFly = cc.getDeclaredMethod("personFly")
         personFly.insertBefore("System.out.println(\"起飞之前准备降落伞\");")
         personFly.insertAfter("System.out.println(\"成功落地。。。。\");")
 
@@ -78,12 +81,35 @@ class SimplePlugin : Plugin<Project> {
         cc.addMethod(ctMethod)
         val person = cc.toClass().newInstance()
         // 调用 personFly 方法
-        val personFlyMethod: Method = person.javaClass.getMethod("getName")
+        val personFlyMethod = person.javaClass.getMethod("personFly")
         personFlyMethod.invoke(person)
         //调用 joinFriend 方法
-        val execute: Method = person.javaClass.getMethod("joinFriend")
+        val execute = person.javaClass.getMethod("joinFriend")
         execute.invoke(person)
     }
+//    @Throws(java.lang.Exception::class)
+//    fun updatePerson() {
+//        val pool = ClassPool.getDefault()
+//        val cc = pool["com.a.dproject.javassist.PersonService"]
+//        cc.defrost()
+//        val personFly = cc.getDeclaredMethod("getName")
+//        personFly.insertBefore("System.out.println(\"起飞之前准备降落伞\");")
+//        personFly.insertAfter("System.out.println(\"成功落地。。。。\");")
+//
+//
+//        //新增一个方法
+//        val ctMethod = CtMethod(CtClass.voidType, "joinFriend", arrayOf(), cc)
+//        ctMethod.modifiers = Modifier.PUBLIC
+//        ctMethod.setBody("{System.out.println(\"i want to be your friend\");}")
+//        cc.addMethod(ctMethod)
+//        val person = cc.toClass().newInstance()
+//        // 调用 personFly 方法
+//        val personFlyMethod: Method = person.javaClass.getMethod("getName")
+//        personFlyMethod.invoke(person)
+//        //调用 joinFriend 方法
+//        val execute: Method = person.javaClass.getMethod("joinFriend")
+//        execute.invoke(person)
+//    }
 
 
 }
