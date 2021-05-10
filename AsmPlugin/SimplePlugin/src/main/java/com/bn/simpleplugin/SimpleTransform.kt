@@ -2,7 +2,6 @@ package com.bn.simpleplugin
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
-import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
 import org.gradle.api.Project
 
@@ -23,8 +22,8 @@ class SimpleTransform(private val project: Project):Transform() {
         return TransformManager.SCOPE_FULL_PROJECT
     }
 
-    override fun transform(transformInvocation: TransformInvocation?) {
-        super.transform(transformInvocation)
-    }
+//    override fun transform(transformInvocation: TransformInvocation?) {
+//        super.transform(transformInvocation)
+//    }
 
 }
