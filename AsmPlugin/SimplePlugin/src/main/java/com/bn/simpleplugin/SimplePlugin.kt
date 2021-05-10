@@ -15,6 +15,7 @@ class SimplePlugin : Plugin<Project> {
 //        createPerson()
 //        updatePerson()
 
+        TestAsm.generatorClass()
         appExtension.registerTransform(SimpleTransform(p0))
     }
 
