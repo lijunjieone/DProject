@@ -8,7 +8,7 @@ import org.objectweb.asm.tree.*
 import java.io.File
 
 
-object TestAsm {
+object AsmUtils {
     fun generatorClass(){
         val cn = ClassNode()
         cn.version = V1_5

@@ -10,11 +10,6 @@ class SimplePlugin : Plugin<Project> {
         val appExtension = p0.extensions.getByType(
             AppExtension::class.java
         )
-
-//        createPerson()
-//        updatePerson()
-
-        TestAsm.generatorClass()
         appExtension.registerTransform(SimpleTransform(p0))
     }
 

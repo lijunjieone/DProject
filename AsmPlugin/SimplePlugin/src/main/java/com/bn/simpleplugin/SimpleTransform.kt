@@ -34,8 +34,8 @@ class SimpleTransform(private val project: Project):Transform() {
         val injectHelper = AutoTrackHelper()
         val baseTransform = BaseTransform(transformInvocation, object : TransformCallBack {
              override fun process(className: String, classBytes: ByteArray?): ByteArray? {
-                 if(TestAsm.needHandle(className)){
-                     return TestAsm.handleTestClass3(classBytes!!)
+                 if(AsmUtils.needHandle(className)){
+                     return AsmUtils.handleTestClass3(classBytes!!)
                  }
                 if (ClassUtils.checkClassName(className)) {
                     try {
