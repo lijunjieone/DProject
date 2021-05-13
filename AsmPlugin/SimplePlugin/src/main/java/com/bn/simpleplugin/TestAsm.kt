@@ -2,13 +2,9 @@ package com.bn.simpleplugin
 
 import com.kronos.plugin.base.ClassUtils
 import javassist.*
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassWriter
-import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.*
 import org.objectweb.asm.Opcodes.*
-import org.objectweb.asm.tree.ClassNode
-import org.objectweb.asm.tree.FieldNode
-import org.objectweb.asm.tree.MethodNode
+import org.objectweb.asm.tree.*
 import java.io.File
 
 
@@ -46,6 +42,79 @@ object TestAsm {
         return classNode
     }
 
+    /**
+     *
+     * public void checkAndSet(int var1) {
+    if(var1 >= 0) {
+    this.f = var1;
+    } else {
+    throw new IllegalArgumentException();
+    }
+    }
+     */
+    /**
+     *  javap -c -l ./app/build/intermediates/transforms/SimpleTransform/debug/111/com/a/dproject/javassist/PersonService.class
+     */
+
+    /**
+     * public void checkAndSet(int);
+    Code:
+    0: iload_1
+    1: iflt          12
+    4: aload_0
+    5: iload_1
+    6: putfield      #22                 // Field org/by/Cwtest.f:I
+    9: goto          20
+    12: new           #24                 // class java/lang/IllegalArgumentException
+    15: dup
+    16: invokespecial #28                 // Method java/lang/IllegalArgumentException."<init>":()V
+    19: athrow
+    20: return
+    }
+
+     */
+    fun createMethod2(classWriter:ClassWriter){
+        val methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "toastText", "()Ljava/lang/String;", null, null)
+        methodVisitor.visitCode()
+        val label0 = Label()
+        methodVisitor.visitLabel(label0)
+        methodVisitor.visitLineNumber(7, label0)
+        methodVisitor.visitLdcInsn("This is toast text")
+        methodVisitor.visitInsn(ARETURN)
+        val label1 = Label()
+        methodVisitor.visitLabel(label1)
+        methodVisitor.visitLocalVariable("this", "Lcom/a/dproject/javassist/PersonService;", null, label0, label1, 0)
+        methodVisitor.visitMaxs(1, 1)
+        methodVisitor.visitEnd()
+    }
+
+    fun createMethod(): MethodNode? {
+        val mn = MethodNode(ACC_PUBLIC, "checkAndSet", "(I)V", null, null)
+        val il: InsnList = mn.instructions
+        il.add(VarInsnNode(ILOAD, 1))
+        val label = LabelNode()
+        il.add(JumpInsnNode(IFLT, label))
+        il.add(VarInsnNode(ALOAD, 0))
+        il.add(VarInsnNode(ILOAD, 1))
+        il.add(FieldInsnNode(PUTFIELD, "org/by/Cwtest", "f", "I"))
+        val end = LabelNode()
+        il.add(JumpInsnNode(GOTO, end))
+        il.add(label)
+        il.add(FrameNode(F_SAME, 0, null, 0, null))
+        il.add(TypeInsnNode(NEW, "java/lang/IllegalArgumentException"))
+        il.add(InsnNode(DUP))
+        il.add(MethodInsnNode(INVOKESPECIAL,
+                "java/lang/IllegalArgumentException", "<init>", "()V", false))
+        il.add(InsnNode(ATHROW))
+        il.add(end)
+        il.add(FrameNode(F_SAME, 0, null, 0, null))
+        il.add(InsnNode(RETURN))
+        mn.maxStack = 2
+        mn.maxLocals = 2
+
+        return mn
+    }
+
 
     private fun toByteArray(cn: ClassNode): ByteArray? {
         val cw = ClassWriter(ClassWriter.COMPUTE_MAXS)
@@ -53,8 +122,69 @@ object TestAsm {
         return cw.toByteArray()
     }
     fun needHandle(className:String):Boolean {
-        System.out.println(className)
-        return className.contains("PersonService")
+        val flag =  className.contains("PersonService")
+//        val flag =  className.contains("PersonService") || className.contains("MoshiFragment")
+//        System.out.println("test:"+flag+">>>"+className)
+        if(flag){
+            System.out.println("test:"+className)
+        }
+        return flag
+    }
+
+    fun handleTestClass2(srcClass: ByteArray): ByteArray {
+        val classReader = ClassReader(srcClass)
+        val classWriter = ClassWriter(0)
+        val ca = MyClassAdapter(classWriter)
+        classReader.accept(ca,0)
+        return classWriter.toByteArray()
+    }
+    
+    fun handleTestClass3(srcClass: ByteArray):ByteArray {
+        val classNode = ClassNode(ASM5)
+        val classReader = ClassReader(srcClass)
+        //1 将读入的字节转为classNode
+        classReader.accept(classNode, 0)
+        val classWriter = ClassWriter(0)
+        var methodVisitor: MethodVisitor
+        classNode.methods.clear()
+        classNode.accept(classWriter)
+
+
+
+//        classWriter.visit(V1_8, ACC_PUBLIC or ACC_SUPER, "com/a/dproject/javassist/PersonService", null, "java/lang/Object", null)
+
+//        classWriter.visitSource("PersonService.java", null)
+
+        methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null)
+        methodVisitor.visitCode()
+        val label0 = Label()
+        methodVisitor.visitLabel(label0)
+        methodVisitor.visitLineNumber(3, label0)
+        methodVisitor.visitVarInsn(ALOAD, 0)
+        methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false)
+        methodVisitor.visitInsn(RETURN)
+        val label1 = Label()
+        methodVisitor.visitLabel(label1)
+        methodVisitor.visitLocalVariable("this", "Lcom/a/dproject/javassist/PersonService;", null, label0, label1, 0)
+        methodVisitor.visitMaxs(1, 1)
+        methodVisitor.visitEnd()
+
+
+        methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "toastText", "()Ljava/lang/String;", null, null)
+        methodVisitor.visitCode()
+        val label10 = Label()
+        methodVisitor.visitLabel(label10)
+        methodVisitor.visitLineNumber(7, label10)
+        methodVisitor.visitLdcInsn("This is another modify toast text")
+        methodVisitor.visitInsn(ARETURN)
+        val label11 = Label()
+        methodVisitor.visitLabel(label11)
+        methodVisitor.visitLocalVariable("this", "Lcom/a/dproject/javassist/PersonService;", null, label10, label11, 0)
+        methodVisitor.visitMaxs(1, 1)
+        methodVisitor.visitEnd()
+        classWriter.visitEnd()
+
+        return classWriter.toByteArray()
     }
 
     fun handleTestClass(srcClass: ByteArray): ByteArray {
@@ -62,8 +192,37 @@ object TestAsm {
         val classReader = ClassReader(srcClass)
         //1 将读入的字节转为classNode
         classReader.accept(classNode, 0)
+        val methods = classNode.methods.iterator()
+
+//        for(method in methods){
+//            if(method.name.contains("getPerson")){
+//                System.out.println("method:"+method.name)
+//                classNode.methods.remove(method)
+//            }
+//        }
+
+        classNode.methods.clear()
+        classNode.fields.add(FieldNode(ACC_PUBLIC + ACC_FINAL + ACC_STATIC,
+                "EQUAL", "I", null, 0))
+
+        classNode.methods.add(MethodNode(ACC_PUBLIC + ACC_ABSTRACT,
+                "compareTo", "(Ljava/lang/Object;)I", null, null))
+
+        val m1 = createMethod()
+        m1?.let {
+            classNode.methods.add(it)
+        }
         val classWriter = ClassWriter(0)
+        //3  将classNode转为字节数组
+        classNode.accept(classWriter)
         return classWriter.toByteArray()
+    }
+
+    class MyClassAdapter(cv:ClassVisitor):ClassNode(ASM4) {
+        override fun visitEnd() {
+//            super.visitEnd()
+            accept(cv)
+        }
     }
 
 

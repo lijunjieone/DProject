@@ -18,8 +18,4 @@ class SimplePlugin : Plugin<Project> {
         appExtension.registerTransform(SimpleTransform(p0))
     }
 
-
-
-
-
 }

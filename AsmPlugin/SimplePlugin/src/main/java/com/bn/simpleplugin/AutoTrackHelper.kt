@@ -1,7 +1,6 @@
 package com.bn.simpleplugin
 
 import com.kronos.plugin.base.AsmHelper
-import com.kronos.plugin.base.Log
 import com.kronos.plugin.base.utils.lambdaHelper
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
@@ -128,7 +127,7 @@ class AutoTrackHelper : AsmHelper {
         instructions?.iterator()?.forEach {
             if (it is FieldInsnNode && dataField == null) {
                 if (it.opcode == GETFIELD) {
-                    Log.info(" instructions filedName:${it.name}  fieldOwner:${it.owner}  desc:${it.desc}")
+//                    Log.info(" instructions filedName:${it.name}  fieldOwner:${it.owner}  desc:${it.desc}")
                     val className = it.desc.subSequence(1, it.desc.length - 1)
 //                    if (DataClassManager.INSTANCE.datList.contains(className)) {
 //                        dataField = it

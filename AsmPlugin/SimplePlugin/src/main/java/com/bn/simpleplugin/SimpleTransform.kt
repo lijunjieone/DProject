@@ -18,7 +18,7 @@ class SimpleTransform(private val project: Project):Transform() {
 
 
     override fun getInputTypes(): Set<QualifiedContent.ContentType> {
-        return TransformManager.CONTENT_CLASS
+        return TransformManager.CONTENT_JARS
     }
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope>? {
@@ -33,23 +33,23 @@ class SimpleTransform(private val project: Project):Transform() {
     override fun transform(transformInvocation: TransformInvocation) {
         val injectHelper = AutoTrackHelper()
         val baseTransform = BaseTransform(transformInvocation, object : TransformCallBack {
-            override fun process(className: String, classBytes: ByteArray?): ByteArray? {
+             override fun process(className: String, classBytes: ByteArray?): ByteArray? {
+                 if(TestAsm.needHandle(className)){
+                     return TestAsm.handleTestClass3(classBytes!!)
+                 }
                 if (ClassUtils.checkClassName(className)) {
                     try {
                         return injectHelper.modifyClass(classBytes!!)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-                }else if(TestAsm.needHandle(className)){
-                    return TestAsm.handleTestClass(classBytes!!)
                 }
+
                 return null
             }
         })
         baseTransform.startTransform()
     }
-//    override fun transform(transformInvocation: TransformInvocation?) {
-//        super.transform(transformInvocation)
-//    }
+
 
 }
