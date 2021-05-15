@@ -58,6 +58,7 @@ dependencies {
     kapt project(":annotation-processor4")
 
     implementation project(":ffmpeg")
+    implementation 'com.github.lijunjieone:PluginDemo:v1.0.3'
 
     api "com.google.ar:core:$rootProject.ext.arCoreVersion"
     api "com.google.ar.sceneform.ux:sceneform-ux:$rootProject.ext.sceneFormVersion"

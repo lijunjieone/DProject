@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 createFragmentByName(fragmentName!!)
             }
+//            globalApplicationContext()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, f)
                     .commitNow()
