@@ -28,6 +28,7 @@ import com.a.dproject.javassist.PersonService
 import com.a.dproject.mvvm.viewmodel.MoshiViewModel
 import com.a.dproject.toast
 import com.a.processor.ListFragmentAnnotation
+import com.bn.utils.ContextUtils
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.produce
@@ -243,6 +244,27 @@ class MoshiFragment : ArtBaseFragment(), CoroutineScope, View.OnClickListener {
 //            testLifecycle1()
             PersonService().toastText().toast()
         }
+        val data = """
+                   binding.tvEvent2.clipToOutline = true
+        binding.tvEvent2.elevation = 5.0f
+        binding.tvEvent2.outlineProvider = object :ViewOutlineProvider() {
+            override fun getOutline(view: View?, outline: Outline?) {
+                val path = Path()
+                path.moveTo(view!!.width.toFloat(), view.height.toFloat())
+                path.lineTo(view.width.toFloat(), view.height * 2.toFloat())
+                path.lineTo(view.width * 2.toFloat(), view.height * 2.toFloat())
+                path.lineTo(view.width * 2.toFloat(), view.height.toFloat())
+                path.close()
+                outline!!.setConvexPath(path)
+            }
+        }
+        binding.tvEvent2.setOnClickListener {
+//            testLifecycle1()
+            PersonService().toastText().toast()
+        } 
+        """.trimIndent()
+        binding.tvExpandable.addMessage("说明",data)
+        binding.tvExpandable.addMessage("说明",data)
 
         binding.tvEvent.setOnLongClickListener {
 

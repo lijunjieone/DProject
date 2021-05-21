@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.a.dproject.mvvm.fragment.SimpleFragment
 import com.a.dproject.mvvm.viewmodel.ListViewModel.Companion.PARAM_PARENT_NAME
+import com.bn.utils.ContextUtils
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple)
+        ContextUtils.init(baseContext.applicationContext)
+
         if (savedInstanceState == null) {
             val fragmentName = intent.getStringExtra(FRAGMENT_NAME)
             val f = if (TextUtils.isEmpty(fragmentName)) {
