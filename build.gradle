@@ -18,8 +18,8 @@ buildscript {
         classpath 'com.quinn.hunter:hunter-debug-plugin:1.1.0'
         classpath 'com.quinn.hunter:hunter-transform:1.1.0'
 
-        classpath 'com.github.lijunjieone.AsmHelperPlugin:SimplePlugin:1.0.3'
-        classpath 'com.github.lijunjieone.AsmHelperPlugin:BasePlugin:1.0.3'
+        classpath 'com.github.monkeydone.AsmHelperPlugin:SimplePlugin:1.0.4'
+        classpath 'com.github.monkeydone.AsmHelperPlugin:BasePlugin:1.0.4'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
