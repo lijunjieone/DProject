@@ -59,8 +59,8 @@ dependencies {
 
     implementation project(":ffmpeg")
 //    implementation 'com.github.lijunjieone:PluginDemo:v1.0.5'
-    implementation 'com.github.lijunjieone.PluginDemo:utils:v1.0.6'
-    implementation 'com.github.lijunjieone.PluginDemo:ui:v1.0.6'
+    implementation 'com.github.monkeydone.Rock:utils:v1.0.8'
+    implementation 'com.github.monkeydone.Rock:ui:v1.0.8'
 
 
     api "com.google.ar:core:$rootProject.ext.arCoreVersion"
